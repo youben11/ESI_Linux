@@ -72,7 +72,7 @@ make_setup_mkinitcpio() {
     local _hook
     mkdir -p ${work_dir}/${arch}/airootfs/etc/initcpio/hooks
     mkdir -p ${work_dir}/${arch}/airootfs/etc/initcpio/install
-    for _hook in archiso archiso_shutdown archiso_pxe_common archiso_pxe_nbd archiso_pxe_http archiso_pxe_nfs archiso_loop_mnt; do
+    for _hook in archiso archiso_shutdown archiso_loop_mnt; do
         cp /usr/lib/initcpio/hooks/${_hook} ${work_dir}/${arch}/airootfs/etc/initcpio/hooks
         cp /usr/lib/initcpio/install/${_hook} ${work_dir}/${arch}/airootfs/etc/initcpio/install
     done
