@@ -7,21 +7,20 @@ sed -i 's/#\(fr_FR\.UTF-8\)/\1/' /etc/locale.gen
 sed -i 's/#\(ar_DZ\.UTF-8\)/\1/' /etc/locale.gen
 locale-gen
 
-echo 'LANG="fr_FR.UTF-8"' >> /etc/locale.conf
-export LANG=fr_FR.UTF-8
+echo 'LANG="en_US.UTF-8"' > /etc/locale.conf
+export LANG=en_US.UTF-8
 
 echo "KEYMAP=fr" >> /etc/vconsole.conf
 
-rm /etc/localtime
-ln -s /usr/share/zoneinfo/Africa/Algiers /etc/localtime
+ln -sf /usr/share/zoneinfo/Africa/Algiers /etc/localtime
 
 hwclock --systohc --utc
 
 echo "ESI" > /etc/hostname
 
-useradd -m -g users -G "adm,audio,floppy,log,network,rfkill,scanner,storage,optical,power,wheel" -s /bin/bash utilisateur
+useradd -m -G "adm,audio,floppy,log,network,rfkill,scanner,storage,optical,power,wheel" -s /bin/bash esi
 
-echo "utilisateur ALL=(ALL) ALL" >> /etc/sudoers
+echo "esi ALL=(ALL) ALL" >> /etc/sudoers
 
 usermod -s /bin/bash root
 cp -aT /etc/skel/ /root/
