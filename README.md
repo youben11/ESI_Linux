@@ -1,6 +1,8 @@
 # ESI_Linux
 
-ESI Linux is a linux distribution made for ESI-SBA students particularly, 
+ESI Linux is a linux distribution made for ESI-SBA (
+Ecole supérieure d'informatique - Sidi Bel Abbes) students particularly, 
+
 it provides all the necessary tools for their curriculum
 
 
@@ -13,4 +15,3 @@ it provides all the necessary tools for their curriculum
 |Merzouk Mohamed Amine|
 |Retiat Bilal|
 
-Ecole supérieure d'informatique - Sidi Bel Abbes
