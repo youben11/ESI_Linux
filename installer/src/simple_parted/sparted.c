@@ -1,10 +1,4 @@
-/*  simple_parted library 
-    
-    License GPL3
-*/
-
 #include "sparted.h"
-#include <string.h>
 
 SPedDevice sped_get_device(){
 
@@ -115,7 +109,6 @@ SPedDiskInfo sped_get_disk_info(PedDisk* disk){
     dinfo.feature=disk->type->features;
 
     PedPartition* p;
-    //PedGeometry* g;
 
     for(int i=0;i<count;i++){
     //Getting partition infos
@@ -133,10 +126,6 @@ SPedDiskInfo sped_get_disk_info(PedDisk* disk){
             dinfo.partition_info[i].fs=malloc(sizeof(char)*(strlen(p->fs_type->name)+1));
             strcpy(dinfo.partition_info[i].fs,p->fs_type->name);
 
-      /*      g=ped_file_system_probe_specific(p->fs_type,&(p->geom));
-            if(g!=NULL)
-                dinfo.partition_info[i].occuped=g->length;
-            else dinfo.partition_info[i].occuped=-1;*/
         }
         else dinfo.partition_info[i].fs="";
         

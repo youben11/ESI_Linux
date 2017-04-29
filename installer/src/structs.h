@@ -1,3 +1,6 @@
+#ifndef DEF_STRUCTS
+#define DEF_STRUCTS
+
 typedef struct user_info{
 
 	char* username;
@@ -34,3 +37,5 @@ typedef struct installer{
 
 	int pos;
 }installer;
+
+#endif

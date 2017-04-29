@@ -1,7 +1,9 @@
+#ifndef DEF_SPARTED
+#define DEF_SPARTED
+
 #include <parted/parted.h>
 #include <parted/device.h>
-
-//nom path fs label espace 
+#include <string.h>
 
 typedef struct SPedDevice{
 
@@ -29,7 +31,6 @@ typedef struct SPedPartitionInfo{
 	char* fs;
 	char* type;
 	long long size;
-	//long long occuped;
 
 }SPedPartitionInfo;
 
@@ -47,3 +48,5 @@ SPedDisk sped_get_disk();
 SPedPartition sped_get_partition(PedDisk* d);
 SPedDiskInfo sped_get_disk_info(PedDisk* disk);
 PedDisk* sped_get_disk_by_name(char* name);
+
+#endif
