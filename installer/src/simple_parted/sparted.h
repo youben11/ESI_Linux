@@ -4,6 +4,8 @@
 #include <parted/parted.h>
 #include <parted/device.h>
 #include <string.h>
+#include <stdio.h>
+#include <errno.h>
 
 typedef struct SPedDevice{
 

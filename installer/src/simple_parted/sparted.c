@@ -1,5 +1,8 @@
 #include "sparted.h"
 
+/*
+    Return an SPedDevice strcuture which contain all devices detected
+*/
 SPedDevice sped_get_device(){
 
         ped_device_probe_all();
@@ -24,7 +27,9 @@ SPedDevice sped_get_device(){
         return device;
 }
 
-
+/*
+    Return an SPedDisk strcuture which contain all disks detected
+*/
 SPedDisk sped_get_disk(){
         SPedDevice dev=sped_get_device();
 
@@ -52,7 +57,18 @@ SPedDisk sped_get_disk(){
         return disk;
 }
 
+/*
+    Search for a disk by its name
+    return the disk if found
+    return NULL on faiure
+*/
 PedDisk* sped_get_disk_by_name(char* name){
+
+    if (name==NULL){
+        errno=EINVAL;
+        perror("sped_get_disk_by_name(NULL)")
+        return NULL;
+    }
 
     SPedDisk disks=sped_get_disk();
 
@@ -65,7 +81,19 @@ PedDisk* sped_get_disk_by_name(char* name){
 
 }
 
+
+/*
+    Return an SPedPartition strcuture which contain all partition detected
+    in the PedDisk d
+    return NULL on failure
+*/
 SPedPartition sped_get_partition(PedDisk* d){
+
+    if (d==NULL){
+        errno=EINVAL;
+        perror("sped_get_partition(NULL)")
+        return NULL;
+    }
 
     PedPartition** p=NULL;
     int count=0;
@@ -94,7 +122,17 @@ SPedPartition sped_get_partition(PedDisk* d){
     return partition;
 }
 
+/*
+    Return an SPedDiskInfo structure which describe the disk (disk)
+    return NULL on failure
+*/
 SPedDiskInfo sped_get_disk_info(PedDisk* disk){
+
+    if (disk==NULL){
+        errno=EINVAL;
+        perror("sped_get_disk_info(NULL)")
+        return NULL;
+    }
 
     SPedPartition part=sped_get_partition(disk);
     int count;
