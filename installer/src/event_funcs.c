@@ -37,11 +37,7 @@ void disk_choosed(installer* inst){
 
 }*/
 
-void install(GtkWidget* w,gpointer data){
-
-	installer* inst=(installer*)data;
-
-	if(inst->pos!=6) return;
+void install(installer* inst){
 
 	char* arg[]={INST_SCRIPT,(char*)inst->pinfo.selected_partition,inst->uinfo.username,inst->uinfo.password,inst->uinfo.password,"en_US.UTF-8","fr",inst->uinfo.hostname,NULL};
 
@@ -78,8 +74,6 @@ void install(GtkWidget* w,gpointer data){
 			perror("ERROR exit status of the child process is diffrent from zero");
 			return ;
     }
-
-    gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 	
 }
 
@@ -343,7 +337,7 @@ void next_click(GtkApplication* app,gpointer data){
 
 	  case 5: // summary
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),FALSE);
-		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
+		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 		//g_print("username:%s\nhostname:%s\npassword:%s\nautologin:%d\nkeyobard:%s\nlanguage:%s\ntimezone:%s\npartition:%s\n",
 		//		inst->uinfo.username,inst->uinfo.hostname,inst->uinfo.password,inst->uinfo.auto_login,inst->linfo.keyboard,inst->linfo.language,inst->linfo.time_zone,(char*)inst->pinfo.selected_partition);
 
@@ -361,7 +355,16 @@ void next_click(GtkApplication* app,gpointer data){
 	//Goto the next layout
 	if(checked){
 		layout_next(inst->main_fixed,inst->layouts[inst->pos],inst->layouts[inst->pos+1],inst->listbox,inst->pos,inst->pos+1);
+		puts("hello");
+		//system("sleep 3");
+		g_print("layout %d\n",inst->pos);
 		inst->pos++;
+	}
+	if(inst->pos==6){
+		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
+		puts("installation start");
+		install(inst);
+		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 	}
 
 }

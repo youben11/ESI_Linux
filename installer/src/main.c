@@ -17,7 +17,6 @@ static void activate (GtkApplication *app,gpointer  user_data){
   //signals management
   g_signal_connect(G_OBJECT(inst->buttons[2]),"clicked",G_CALLBACK(exit_finish),app);
   g_signal_connect(G_OBJECT(inst->buttons[1]),"clicked",G_CALLBACK(next_click),inst);
-  g_signal_connect(G_OBJECT(inst->buttons[1]),"clicked",G_CALLBACK(install),inst);
   g_signal_connect(G_OBJECT(inst->buttons[0]),"clicked",G_CALLBACK(back_click),inst);
   g_signal_connect(G_OBJECT(inst->window),"destroy",G_CALLBACK(g_application_quit),app);
   g_signal_connect(G_OBJECT(inst->buttons[3]),"clicked",G_CALLBACK(open_gparted),inst);
