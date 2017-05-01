@@ -10,5 +10,8 @@ int check_user_info(installer* inst);
 void exit_finish(GtkWidget *w, gpointer userdata);
 void layout_next(GtkFixed* main_fixed,GtkWidget* selected_layout,GtkWidget* wanted_layout,GtkListBox* listbox,gint selected, gint position);
 void next_click(GtkApplication* app,gpointer data);
+gboolean check_partition_info(installer* inst);
+void open_gparted(GtkWidget* w,gpointer data);
+void refresh_disk_list(GtkWidget* w , gpointer data);
 
 #endif

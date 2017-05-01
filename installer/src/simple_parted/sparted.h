@@ -50,5 +50,7 @@ SPedDisk sped_get_disk();
 SPedPartition sped_get_partition(PedDisk* d);
 SPedDiskInfo sped_get_disk_info(PedDisk* disk);
 PedDisk* sped_get_disk_by_name(char* name);
+SPedDisk sped_get_disk_path(char* path);
+SPedDevice sped_get_device_path(char* path);
 
 #endif

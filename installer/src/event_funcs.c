@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 
+/*Old one
 void disk_choosed(installer* inst){
 
 	GtkComboBoxText* disk_list=GTK_COMBO_BOX_TEXT(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_list"));
@@ -31,6 +32,24 @@ void disk_choosed(installer* inst){
 	g_free(n_disk);
 	free(s_disk);
 
+}*/
+
+void open_gparted(GtkWidget* w,gpointer data){
+	system("gparted");
+}
+
+void refresh_disk_list(GtkWidget* w , gpointer data){
+	installer* inst = (installer*) data;
+	g_signal_handlers_disconnect_by_func(inst->pinfo.disk_list, init_partition, inst);
+	gtk_combo_box_text_remove_all(inst->pinfo.disk_list);
+	gtk_combo_box_text_append_text(inst->pinfo.disk_list,"Selectionnez un disque ...");
+	init_disk_list(inst);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(inst->pinfo.disk_list),0);
+	clear_grid(inst->pinfo.partition_grid,0);
+  	gtk_label_set_text(inst->pinfo.disk_size,"");
+	gtk_label_set_text(inst->pinfo.disk_name,"");
+	g_signal_connect(G_OBJECT(inst->pinfo.disk_list),"changed",G_CALLBACK(init_partition),inst);
+	
 }
 
 int isValidName(char* name){
@@ -45,8 +64,8 @@ int isValidName(char* name){
 void alert_dialog(GtkWindow* window,char* message){
 	GtkMessageDialog *dialog=GTK_MESSAGE_DIALOG(gtk_message_dialog_new(window,
 																		GTK_DIALOG_DESTROY_WITH_PARENT,
-																		GTK_MESSAGE_WARNING,
-																		GTK_BUTTONS_NONE,
+																		GTK_MESSAGE_INFO,
+																		GTK_BUTTONS_OK,
 																		message));
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -101,6 +120,31 @@ void save_user_info(installer* inst){
 		inst->uinfo.auto_login=1;
 	else inst->uinfo.auto_login=0;
 
+}
+
+void save_time_lang(installer* inst){
+
+    if(inst==NULL) return;
+
+    GtkComboBoxText *keyboard,*language,*time_zone;
+
+    //getting child widget
+    time_zone=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_timezone");
+    keyboard=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_keyboard");
+    language=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_lang");
+
+    //getting time_zone info
+    strcpy(inst->linfo.time_zone,gtk_combo_box_text_get_active_text(time_zone));
+    strcpy(inst->linfo.keyboard,gtk_combo_box_text_get_active_text(keyboard));
+    strcpy(inst->linfo.language,gtk_combo_box_text_get_active_text(language));
+
+}
+
+int check_partition_info(installer* inst){
+	inst->pinfo.spartition_size=get_partition_size_at_index(inst,get_active_radio_button(inst));
+	if (inst->pinfo.spartition_size < 16106127360)
+			return 0;
+	return 1;
 }
 
 int check_user_info(installer* inst){
@@ -174,24 +218,6 @@ int check_user_info(installer* inst){
 	return 1;
 }
 
-void save_time_lang(installer* inst){
-
-    if(inst==NULL) return;
-
-    GtkComboBoxText *keyboard,*language,*time_zone;
-
-    //getting child widget
-    time_zone=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_timezone");
-    keyboard=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_keyboard");
-    language=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_lang");
-
-    //getting time_zone info
-    strcpy(inst->linfo.time_zone,gtk_combo_box_text_get_active_text(time_zone));
-    strcpy(inst->linfo.keyboard,gtk_combo_box_text_get_active_text(keyboard));
-    strcpy(inst->linfo.language,gtk_combo_box_text_get_active_text(language));
-
-}
-
 void exit_finish(GtkWidget *w, gpointer userdata){
 	g_application_quit(G_APPLICATION(userdata));
 }
@@ -229,13 +255,22 @@ void next_click(GtkApplication* app,gpointer data){
   	  case 1: // license
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),TRUE);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
-		init_partition(inst);
+		refresh_disk_list(GTK_WIDGET(inst->buttons[4]),inst);
 
 	  break;
 
 	  case 2: // partition
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),TRUE);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
+		if((checked=check_partition_info(inst))){
+					inst->pinfo.selected_partition=get_partition_path_at_index(inst,get_active_radio_button(inst));
+					gchar* message = malloc(54);
+					sprintf(message,"ESI Linux va etre installe dans la partition %s",inst->pinfo.selected_partition);
+					alert_dialog(inst->window,message);
+									//g_print("Disk: %s\nPartition: %s\nSize: %s",inst->pinfo.selected_disk,inst->pinfo.selected_partition,get_human_size(inst->pinfo.spartition_size));
+				}
+                else
+					alert_dialog(inst->window,"Il vous faut au moins 15 GiB d'espace disque");
 
 	  break;
 
@@ -270,6 +305,8 @@ void next_click(GtkApplication* app,gpointer data){
 
 
 	}
+
+	//Goto the next layout
 	if(checked){
 		layout_next(inst->main_fixed,inst->layouts[inst->pos],inst->layouts[inst->pos+1],inst->listbox,inst->pos,inst->pos+1);
 		inst->pos++;
@@ -297,7 +334,7 @@ void back_click(GtkApplication* app,gpointer data){
 	  case 3: // Lang
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),TRUE);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
-		disk_choosed(inst);
+		//disk_choosed(inst);
 	  break;
 
 	  case 4: // user

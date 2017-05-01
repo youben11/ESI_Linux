@@ -1,5 +1,24 @@
 #include "sparted.h"
 
+SPedDevice sped_get_device_path(char* path){
+        ped_device_probe_all();
+        PedDevice* dev = malloc(sizeof(*dev));
+        dev=ped_device_get(path);
+        SPedDevice device;
+        device.device=&dev;
+        device.device_count=1;
+        return device;
+}
+
+SPedDisk sped_get_disk_path(char* path){
+        SPedDevice dev=sped_get_device_path(path);
+        PedDisk* d=ped_disk_new(*dev.device);
+        SPedDisk disk;
+        disk.disk=&d;
+        disk.disk_count=1;
+        return disk;
+}
+
 /*
     Return an SPedDevice strcuture which contain all devices detected
 */

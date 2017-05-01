@@ -1,6 +1,7 @@
 #include "init_funcs.h"
 #include "simple_parted/sparted.h"
 #include <string.h>
+#include "partition_funcs.c"
 
 void init_user_info(installer* inst){
 
@@ -14,28 +15,48 @@ void init_user_info(installer* inst){
 	return;
 }
 
-//NOT COMPLETED
-void init_partition(installer* inst){
+void init_disk_list(installer* inst){
+	ped_device_free_all ();
+	ped_device_probe_all();
+ 	PedDevice* pdv = NULL;
+	while ((pdv=ped_device_get_next(pdv)) != NULL)
+			gtk_combo_box_text_append_text(inst->pinfo.disk_list,pdv->path);
+}
 
-	SPedDisk disks=sped_get_disk();
-	char** disks_path=malloc(sizeof(char*)*disks.disk_count);
-	for(int i=0;i<disks.disk_count;i++){
-		disks_path[i]=malloc(sizeof(char)*(strlen(disks.disk[i]->dev->path)+1));
-		strcpy(disks_path[i],disks.disk[i]->dev->path);
-	}
+void init_partition(GtkWidget *w, gpointer ins){
+		installer* inst = (installer*) ins;
+		GtkToggleButton* first_radio = get_radio_button_at_index(inst,0);
+		gchar* selected_disk=gtk_combo_box_text_get_active_text(inst->pinfo.disk_list);
+        SPedDisk disk;
+		SPedDiskInfo dinfo;
+		PedSector disksize;
+		if(strcmp(selected_disk,"Selectionnez un disque ..."))
+		{
+			  gtk_toggle_button_set_active(first_radio,TRUE);
+			  gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
+				inst->pinfo.selected_disk=selected_disk;
+				disk=sped_get_disk_path(selected_disk);
+				dinfo=sped_get_disk_info(disk.disk[0]);
+				disksize = sped_get_device_path(selected_disk).device[0]->length*512;
+				gtk_label_set_text(inst->pinfo.disk_size,get_human_size(disksize)); // set the chosen disk size
+				gtk_label_set_text(inst->pinfo.disk_name,selected_disk);  // Set the chosen disk name
+				fill_partition_grid(inst->pinfo.partition_grid,dinfo); // Fill the tables with the detected partitions
+		}
+		else{
+			  gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
+				clear_grid(inst->pinfo.partition_grid,0);
+				gtk_label_set_text(inst->pinfo.disk_name,"");
+				gtk_label_set_text(inst->pinfo.disk_size,"");
+		}
 
-	GtkComboBoxText* disk_list=GTK_COMBO_BOX_TEXT(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_list"));
-	
-	if(disk_list==NULL){
-		g_print("error in getting object disk_list\n");
-		return;
-	}
-	gtk_combo_box_text_remove_all(disk_list);
 
-	for(int i=0;i<disks.disk_count;i++){
-		gtk_combo_box_text_append(disk_list,NULL,disks_path[i]);
-	}
+}
 
+void init_partition_structure(installer* inst){
+	inst->pinfo.partition_grid=GTK_GRID(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"part_list"));
+	inst->pinfo.disk_list= GTK_COMBO_BOX_TEXT(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_list"));
+	inst->pinfo.disk_name= GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_name"));
+	inst->pinfo.disk_size= GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_size"));
 }
 
 void init_time_lang(installer* inst){
@@ -82,7 +103,11 @@ void init_listbox(GtkListBox* listbox){
 }
 
 
-void init_structure(installer* inst,GtkBuilder *builder){
+void init_installer(installer* inst,GtkBuilder *builder){
+	
+	init_builders(inst);
+  	init_layout(inst);
+
 	gtk_builder_add_from_file(builder, "res/installer.ui", NULL);
   	inst->pos=0;
   	inst->listbox = GTK_LIST_BOX(gtk_builder_get_object(builder,"listbox"));
@@ -90,9 +115,17 @@ void init_structure(installer* inst,GtkBuilder *builder){
   	inst->buttons[0] = GTK_BUTTON(gtk_builder_get_object(builder,"button_back"));
   	inst->buttons[1] = GTK_BUTTON(gtk_builder_get_object(builder,"button_next"));
   	inst->buttons[2] = GTK_BUTTON(gtk_builder_get_object(builder,"button_finish"));
+  	inst->buttons[3] = GTK_BUTTON(gtk_builder_get_object(inst->builders[2],"butt_gparted"));
+	inst->buttons[4] = GTK_BUTTON(gtk_builder_get_object(inst->builders[2],"refresh_button"));
   	inst->window = GTK_WINDOW(gtk_builder_get_object (builder, "window"));
 	gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[2]),FALSE);
   	gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),FALSE);
+  	init_partition_structure(inst);
+  	init_disk_list(inst);
+  	init_listbox(inst->listbox);
+  	init_user_info(inst);
+  	init_time_lang(inst);
+
 }
 
 void init_layout(installer* inst){
@@ -113,4 +146,27 @@ void replace_layout(GtkFixed* container , GtkWidget* layout_to_destroy , GtkWidg
 	gtk_fixed_put(container,GTK_WIDGET(layout_to_put),0,0);
 }
 
+/*
+//Old one
+void init_partition(installer* inst){
 
+	SPedDisk disks=sped_get_disk();
+	char** disks_path=malloc(sizeof(char*)*disks.disk_count);
+	for(int i=0;i<disks.disk_count;i++){
+		disks_path[i]=malloc(sizeof(char)*(strlen(disks.disk[i]->dev->path)+1));
+		strcpy(disks_path[i],disks.disk[i]->dev->path);
+	}
+
+	GtkComboBoxText* disk_list=GTK_COMBO_BOX_TEXT(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_list"));
+	
+	if(disk_list==NULL){
+		g_print("error in getting object disk_list\n");
+		return;
+	}
+	gtk_combo_box_text_remove_all(disk_list);
+
+	for(int i=0;i<disks.disk_count;i++){
+		gtk_combo_box_text_append(disk_list,NULL,disks_path[i]);
+	}
+
+}*/
