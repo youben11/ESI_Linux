@@ -13,5 +13,6 @@ void next_click(GtkApplication* app,gpointer data);
 gboolean check_partition_info(installer* inst);
 void open_gparted(GtkWidget* w,gpointer data);
 void refresh_disk_list(GtkWidget* w , gpointer data);
+void install(installer* inst);
 
 #endif

@@ -3,6 +3,9 @@
 #include "init_funcs.c"
 #include <string.h>
 #include <ctype.h>
+#include "script_ctrl.h"
+
+#define INST_SCRIPT "install.sh"
 
 /*Old one
 void disk_choosed(installer* inst){
@@ -34,6 +37,46 @@ void disk_choosed(installer* inst){
 
 }*/
 
+void install(installer* inst){
+
+	char* arg[]={INST_SCRIPT,(char*)inst->pinfo.selected_partition,inst->uinfo.username,inst->uinfo.password,inst->uinfo.password,"en_US.UTF-8","fr",inst->uinfo.hostname,NULL};
+
+	ps_info psinfo=script_ctrl(INST_SCRIPT,arg);
+
+	
+	//test party
+	FILE *script_stream = fdopen(psinfo.stdout_fd, "r");
+		if (script_stream == NULL){
+			perror("can't open file descriptor");
+			return ;
+		}
+
+		char buffer[4096];
+
+		//int catch_it=0;
+		while ( fgets(buffer, sizeof(buffer), script_stream) ) {
+			//if (catch_it)
+				printf("%s",buffer);
+			//catch_it = (strncmp(buffer, "[#@", 3) == 0);
+		}
+
+		// closing the pipes read ends
+		fclose(script_stream);
+
+		int pid_status;
+		//waiting for the child process to terminate
+		if ( waitpid(psinfo.pid,&pid_status,0) == -1 ){
+			perror("ERROR while waiting for child process");
+			return ;
+		}
+		//checking the exit status of the child process
+		if (WEXITSTATUS(pid_status)){
+			perror("ERROR exit status of the child process is diffrent from zero");
+			return ;
+    }
+	
+}
+
 void open_gparted(GtkWidget* w,gpointer data){
 	system("gparted");
 }
@@ -49,7 +92,7 @@ void refresh_disk_list(GtkWidget* w , gpointer data){
   	gtk_label_set_text(inst->pinfo.disk_size,"");
 	gtk_label_set_text(inst->pinfo.disk_name,"");
 	g_signal_connect(G_OBJECT(inst->pinfo.disk_list),"changed",G_CALLBACK(init_partition),inst);
-	
+
 }
 
 int isValidName(char* name){
@@ -254,7 +297,7 @@ void next_click(GtkApplication* app,gpointer data){
 
   	  case 1: // license
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),TRUE);
-		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
+		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
 		refresh_disk_list(GTK_WIDGET(inst->buttons[4]),inst);
 
 	  break;
@@ -295,6 +338,9 @@ void next_click(GtkApplication* app,gpointer data){
 	  case 5: // summary
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),FALSE);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
+		g_print("username:%s\nhostname:%s\npassword:%s\nautologin:%d\nkeyobard:%s\nlanguage:%s\ntimezone:%s\npartition:%s\n",
+				inst->uinfo.username,inst->uinfo.hostname,inst->uinfo.password,inst->uinfo.auto_login,inst->linfo.keyboard,inst->linfo.language,inst->linfo.time_zone,(char*)inst->pinfo.selected_partition);
+
 	  break;
 
 	  case 6: // installation
@@ -310,6 +356,11 @@ void next_click(GtkApplication* app,gpointer data){
 	if(checked){
 		layout_next(inst->main_fixed,inst->layouts[inst->pos],inst->layouts[inst->pos+1],inst->listbox,inst->pos,inst->pos+1);
 		inst->pos++;
+	}
+	if(inst->pos==6){
+		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
+		install(inst);
+		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 	}
 
 }
