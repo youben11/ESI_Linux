@@ -174,6 +174,24 @@ int check_user_info(installer* inst){
 	return 1;
 }
 
+void save_time_lang(installer* inst){
+
+    if(inst==NULL) return;
+
+    GtkComboBoxText *keyboard,*language,*time_zone;
+
+    //getting child widget
+    time_zone=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_timezone");
+    keyboard=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_keyboard");
+    language=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_lang");
+
+    //getting time_zone info
+    strcpy(inst->linfo.time_zone,gtk_combo_box_text_get_active_text(time_zone));
+    strcpy(inst->linfo.keyboard,gtk_combo_box_text_get_active_text(keyboard));
+    strcpy(inst->linfo.language,gtk_combo_box_text_get_active_text(language));
+
+}
+
 void exit_finish(GtkWidget *w, gpointer userdata){
 	g_application_quit(G_APPLICATION(userdata));
 }
@@ -224,6 +242,7 @@ void next_click(GtkApplication* app,gpointer data){
 	  case 3: // lang time
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),TRUE);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
+		save_time_lang(inst);
 		
 
 	  break;
@@ -231,9 +250,10 @@ void next_click(GtkApplication* app,gpointer data){
 	  case 4: // user
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),TRUE);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
-		gtk_button_set_label(inst->buttons[1],"Installer");
-		if(checked=check_user_info(inst))
+		if(checked=check_user_info(inst)){
 			save_user_info(inst);
+			gtk_button_set_label(inst->buttons[1],"Installer");
+		}
 
 	  break;
 

@@ -14,6 +14,7 @@ static void activate (GtkApplication *app,gpointer  user_data)
   init_structure(inst,builder);
   init_listbox(inst->listbox);
   init_user_info(inst);
+  init_time_lang(inst);
 
   gtk_fixed_put(inst->main_fixed,inst->layouts[0],0,0);
 

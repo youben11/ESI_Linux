@@ -66,7 +66,7 @@ PedDisk* sped_get_disk_by_name(char* name){
 
     if (name==NULL){
         errno=EINVAL;
-        perror("sped_get_disk_by_name(NULL)")
+        perror("sped_get_disk_by_name(NULL)");
         return NULL;
     }
 
@@ -91,8 +91,7 @@ SPedPartition sped_get_partition(PedDisk* d){
 
     if (d==NULL){
         errno=EINVAL;
-        perror("sped_get_partition(NULL)")
-        return NULL;
+        perror("sped_get_partition(NULL)");
     }
 
     PedPartition** p=NULL;
@@ -130,8 +129,7 @@ SPedDiskInfo sped_get_disk_info(PedDisk* disk){
 
     if (disk==NULL){
         errno=EINVAL;
-        perror("sped_get_disk_info(NULL)")
-        return NULL;
+        perror("sped_get_disk_info(NULL)");
     }
 
     SPedPartition part=sped_get_partition(disk);

@@ -8,5 +8,6 @@ void init_structure(installer* inst,GtkBuilder *builder);
 void init_listbox(GtkListBox* listbox);
 void replace_layout(GtkFixed* container , GtkWidget* layout_to_destroy , GtkWidget* layout_to_put);
 void init_layout(installer* inst);
+void init_time_lang(installer* inst);
 
 #endif

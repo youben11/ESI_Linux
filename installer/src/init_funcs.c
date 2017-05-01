@@ -38,6 +38,17 @@ void init_partition(installer* inst){
 
 }
 
+void init_time_lang(installer* inst){
+
+    if (inst == NULL) return;
+
+    inst->linfo.keyboard=malloc(32*sizeof(char));
+    inst->linfo.language=malloc(32*sizeof(char));
+    inst->linfo.time_zone=malloc(40*sizeof(char));
+
+    return;
+}
+
 void init_builders(installer* inst){
 	for (int i=0; i<8;i++)	inst->builders[i]=gtk_builder_new();
 	gtk_builder_add_from_file(inst->builders[0],"res/welcome.ui", NULL);

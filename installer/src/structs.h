@@ -14,7 +14,7 @@ typedef struct lang_time_info{
 
 	char* keyboard;
 	char* language;
-	int time_zone;
+	char* time_zone;
 
 }lang_time_info;
 
