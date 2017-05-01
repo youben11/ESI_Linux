@@ -5,7 +5,7 @@
 #include <ctype.h>
 #include "script_ctrl.h"
 
-#define INST_SCRIPT "install.sh"
+#define INST_SCRIPT "./install.sh"
 
 /*Old one
 void disk_choosed(installer* inst){
@@ -37,7 +37,11 @@ void disk_choosed(installer* inst){
 
 }*/
 
-void install(installer* inst){
+void install(GtkWidget* w,gpointer data){
+
+	installer* inst=(installer*)data;
+
+	if(inst->pos!=6) return;
 
 	char* arg[]={INST_SCRIPT,(char*)inst->pinfo.selected_partition,inst->uinfo.username,inst->uinfo.password,inst->uinfo.password,"en_US.UTF-8","fr",inst->uinfo.hostname,NULL};
 
@@ -74,6 +78,8 @@ void install(installer* inst){
 			perror("ERROR exit status of the child process is diffrent from zero");
 			return ;
     }
+
+    gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 	
 }
 
@@ -337,9 +343,9 @@ void next_click(GtkApplication* app,gpointer data){
 
 	  case 5: // summary
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),FALSE);
-		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
-		g_print("username:%s\nhostname:%s\npassword:%s\nautologin:%d\nkeyobard:%s\nlanguage:%s\ntimezone:%s\npartition:%s\n",
-				inst->uinfo.username,inst->uinfo.hostname,inst->uinfo.password,inst->uinfo.auto_login,inst->linfo.keyboard,inst->linfo.language,inst->linfo.time_zone,(char*)inst->pinfo.selected_partition);
+		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
+		//g_print("username:%s\nhostname:%s\npassword:%s\nautologin:%d\nkeyobard:%s\nlanguage:%s\ntimezone:%s\npartition:%s\n",
+		//		inst->uinfo.username,inst->uinfo.hostname,inst->uinfo.password,inst->uinfo.auto_login,inst->linfo.keyboard,inst->linfo.language,inst->linfo.time_zone,(char*)inst->pinfo.selected_partition);
 
 	  break;
 
@@ -356,11 +362,6 @@ void next_click(GtkApplication* app,gpointer data){
 	if(checked){
 		layout_next(inst->main_fixed,inst->layouts[inst->pos],inst->layouts[inst->pos+1],inst->listbox,inst->pos,inst->pos+1);
 		inst->pos++;
-	}
-	if(inst->pos==6){
-		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
-		install(inst);
-		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 	}
 
 }
