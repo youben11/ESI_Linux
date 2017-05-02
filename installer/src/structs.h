@@ -25,7 +25,12 @@ typedef struct lang_time_info{
 
 	char* keyboard;
 	char* language;
-	char* time_zone;
+	char* region;
+	char* zone;
+	char* timezone;
+	FILE* timezone_file;
+	GtkComboBoxText* region_combo;
+	GtkComboBoxText* zone_combo;
 
 }lang_time_info;
 

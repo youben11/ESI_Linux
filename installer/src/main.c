@@ -23,6 +23,7 @@ static void activate (GtkApplication *app,gpointer  user_data){
   g_signal_connect(G_OBJECT(inst->buttons[3]),"released",G_CALLBACK(refresh_disk_list),inst);
   g_signal_connect(G_OBJECT(inst->buttons[4]),"clicked",G_CALLBACK(refresh_disk_list),inst);
   g_signal_connect(G_OBJECT(inst->pinfo.disk_list),"changed",G_CALLBACK(init_partition),inst);
+  g_signal_connect(G_OBJECT(inst->linfo.region_combo),"changed",G_CALLBACK(init_zone_combo),inst);
 
   // Start the app
   gtk_application_add_window(app,inst->window);

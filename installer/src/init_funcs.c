@@ -15,6 +15,26 @@ void init_user_info(installer* inst){
 	return;
 }
 
+void init_zone_combo(GtkWidget* w, gpointer data){
+
+	installer* inst = (installer*) data;
+	gtk_combo_box_text_remove_all(inst->linfo.zone_combo);
+	gchar* tmp=malloc(40);
+	gchar* active_region = gtk_combo_box_text_get_active_text(inst->linfo.region_combo);
+	gchar* tmp_region = malloc(20);
+	gchar* tmp_zone = malloc(20);
+	inst->linfo.timezone_file=fopen("res/timezone.txt","r");
+	while (!feof(inst->linfo.timezone_file)){
+  		fscanf(inst->linfo.timezone_file,"%s\n",tmp);
+			tmp_region=strtok(tmp,"/");
+			tmp_zone=strtok(NULL,"/");
+			if (!strcmp(tmp_region,active_region))
+					gtk_combo_box_text_append_text(inst->linfo.zone_combo,tmp_zone);;
+	}
+	fclose(inst->linfo.timezone_file);
+
+}
+
 void init_disk_list(installer* inst){
 	ped_device_free_all ();
 	ped_device_probe_all();
@@ -65,7 +85,12 @@ void init_time_lang(installer* inst){
 
     inst->linfo.keyboard=malloc(32*sizeof(char));
     inst->linfo.language=malloc(32*sizeof(char));
-    inst->linfo.time_zone=malloc(40*sizeof(char));
+    inst->linfo.region=malloc(20*sizeof(char));
+    inst->linfo.zone=malloc(20*sizeof(char));
+    inst->linfo.timezone=malloc(40*sizeof(char));
+
+    inst->linfo.region_combo=GTK_COMBO_BOX_TEXT(gtk_builder_get_object(inst->builders[3],"region_combo"));
+	inst->linfo.zone_combo  =GTK_COMBO_BOX_TEXT(gtk_builder_get_object(inst->builders[3],"zone_combo"));
 
     return;
 }

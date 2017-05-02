@@ -169,17 +169,58 @@ void save_time_lang(installer* inst){
 
     if(inst==NULL) return;
 
-    GtkComboBoxText *keyboard,*language,*time_zone;
+    GtkComboBoxText *keyboard,*language,*zone,*region;
+    char* timezone = malloc(40);
 
     //getting child widget
-    time_zone=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_timezone");
+    region=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_region");
+	zone=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_zone");
     keyboard=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_keyboard");
     language=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_lang");
 
     //getting time_zone info
-    strcpy(inst->linfo.time_zone,gtk_combo_box_text_get_active_text(time_zone));
-    strcpy(inst->linfo.keyboard,gtk_combo_box_text_get_active_text(keyboard));
-    strcpy(inst->linfo.language,gtk_combo_box_text_get_active_text(language));
+    strcpy(inst->linfo.region,gtk_combo_box_text_get_active_text(region));
+	strcpy(inst->linfo.zone,gtk_combo_box_text_get_active_text(zone));
+	sprintf(timezone,"%s/%s",inst->linfo.region,inst->linfo.zone);
+	strcpy(inst->linfo.timezone,timezone);
+
+	
+
+	/*why raouf dont use strcmp!!!
+	*/
+	//keyboard
+	if (gtk_combo_box_text_get_active_text(keyboard),"AZERTY")
+    	strcpy(inst->linfo.keyboard,"fr");
+    else
+		strcpy(inst->linfo.keyboard,"en");
+		
+	//lang	
+	if (gtk_combo_box_text_get_active_text(language),"fr")
+		strcpy(inst->linfo.language,"fr_FR.UTF-8");
+	else
+		strcpy(inst->linfo.language,"en_EN.UTF-8");
+
+   
+}
+
+int check_time_lang(installer* inst){
+
+	if(inst==NULL) return 0;
+
+    GtkComboBoxText *keyboard,*language,*zone,*region;
+
+    //getting child widget
+    region=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_region");
+	zone=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_zone");
+    keyboard=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_keyboard");
+    language=(GtkComboBoxText*)get_child_by_name(GTK_CONTAINER(inst->layouts[3]),"langtime_lang");
+
+    if(gtk_combo_box_text_get_active_text(zone)==NULL){
+    	alert_dialog(inst->window,"Vous devez choisir une zone");
+    	return 0;
+    }
+
+    return 1;
 
 }
 
@@ -320,7 +361,8 @@ void next_click(GtkApplication* app,gpointer data){
 	  case 3: // lang time
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),TRUE);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
-		save_time_lang(inst);
+		if(checked=check_time_lang(inst))
+			save_time_lang(inst);
 		
 
 	  break;
@@ -355,15 +397,12 @@ void next_click(GtkApplication* app,gpointer data){
 	//Goto the next layout
 	if(checked){
 		layout_next(inst->main_fixed,inst->layouts[inst->pos],inst->layouts[inst->pos+1],inst->listbox,inst->pos,inst->pos+1);
-		puts("hello");
-		//system("sleep 3");
-		g_print("layout %d\n",inst->pos);
 		inst->pos++;
 	}
 	if(inst->pos==6){
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
 		puts("installation start");
-		install(inst);
+		//install(inst);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 	}
 
