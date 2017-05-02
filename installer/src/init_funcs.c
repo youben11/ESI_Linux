@@ -95,6 +95,31 @@ void init_time_lang(installer* inst){
     return;
 }
 
+void init_summary(installer* inst){
+
+	GtkLabel *partition,*lang,*keyboard,*timezone,*username,*hostname,*auto_login;
+
+	//getting labels
+	partition=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"partition_summary"));
+	lang=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"language_summary"));
+	keyboard=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"keyboard_summary"));
+	timezone=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"timezone_summary"));
+	username=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"username_summary"));
+	hostname=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"hostname_summary"));
+	auto_login=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"autologin_summary"));
+
+	//set text label
+
+	gtk_label_set_text(partition,inst->pinfo.selected_partition);
+	gtk_label_set_text(lang,inst->linfo.language);
+	gtk_label_set_text(keyboard,inst->linfo.keyboard);
+	gtk_label_set_text(timezone,inst->linfo.timezone);
+	gtk_label_set_text(username,inst->uinfo.username);
+	gtk_label_set_text(hostname,inst->uinfo.hostname);
+	gtk_label_set_text(auto_login,(inst->uinfo.auto_login==1)?"OUI":"NON");
+
+}
+
 void init_builders(installer* inst){
 	for (int i=0; i<8;i++)	inst->builders[i]=gtk_builder_new();
 	gtk_builder_add_from_file(inst->builders[0],"res/welcome.ui", NULL);

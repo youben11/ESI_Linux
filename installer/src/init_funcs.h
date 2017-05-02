@@ -11,5 +11,6 @@ void replace_layout(GtkFixed* container , GtkWidget* layout_to_destroy , GtkWidg
 void init_layout(installer* inst);
 void init_time_lang(installer* inst);
 void init_zone_combo(GtkWidget* w, gpointer data);
+void init_summary(installer* inst);
 
 #endif

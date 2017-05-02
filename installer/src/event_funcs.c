@@ -7,35 +7,7 @@
 
 #define INST_SCRIPT "./install.sh"
 
-/*Old one
-void disk_choosed(installer* inst){
 
-	GtkComboBoxText* disk_list=GTK_COMBO_BOX_TEXT(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_list"));
-	char* n_disk=(char*) gtk_combo_box_text_get_active_text(disk_list);
-
-	if(n_disk==NULL) return;
-
-	GtkLabel* disk_name=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_name"));
-	//set the name of the choosed disk
-	gtk_label_set_text(disk_name,n_disk);
-	//getting disk info
-	SPedDiskInfo dinfo=sped_get_disk_info(sped_get_disk_by_name(n_disk));
-	
-	//set the size of the choosed disk
-	char* s_disk=malloc(sizeof(char)*16);
-
-	if((dinfo.size/1024/1024)<1024)
-		sprintf(s_disk,"%lldMb",dinfo.size/1024/1024);	
-	else 
-		sprintf(s_disk,"%lldGb",dinfo.size/1024/1024/1024);
-
-	GtkLabel* disk_size=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_size"));
-	gtk_label_set_text(disk_size,s_disk);
-
-	g_free(n_disk);
-	free(s_disk);
-
-}*/
 
 void install(installer* inst){
 
@@ -185,17 +157,14 @@ void save_time_lang(installer* inst){
 	strcpy(inst->linfo.timezone,timezone);
 
 	
-
-	/*why raouf dont use strcmp!!!
-	*/
 	//keyboard
-	if (gtk_combo_box_text_get_active_text(keyboard),"AZERTY")
+	if (!strcmp(gtk_combo_box_text_get_active_text(keyboard),"Français (AZERTY)"))
     	strcpy(inst->linfo.keyboard,"fr");
     else
 		strcpy(inst->linfo.keyboard,"en");
 		
 	//lang	
-	if (gtk_combo_box_text_get_active_text(language),"fr")
+	if (!strcmp(gtk_combo_box_text_get_active_text(language),"FR,fr"))
 		strcpy(inst->linfo.language,"fr_FR.UTF-8");
 	else
 		strcpy(inst->linfo.language,"en_EN.UTF-8");
@@ -373,6 +342,7 @@ void next_click(GtkApplication* app,gpointer data){
 		if(checked=check_user_info(inst)){
 			save_user_info(inst);
 			gtk_button_set_label(inst->buttons[1],"Installer");
+			init_summary(inst);
 		}
 
 	  break;
@@ -381,7 +351,7 @@ void next_click(GtkApplication* app,gpointer data){
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),FALSE);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 		//g_print("username:%s\nhostname:%s\npassword:%s\nautologin:%d\nkeyobard:%s\nlanguage:%s\ntimezone:%s\npartition:%s\n",
-		//		inst->uinfo.username,inst->uinfo.hostname,inst->uinfo.password,inst->uinfo.auto_login,inst->linfo.keyboard,inst->linfo.language,inst->linfo.time_zone,(char*)inst->pinfo.selected_partition);
+		//		inst->uinfo.username,inst->uinfo.hostname,inst->uinfo.password,inst->uinfo.auto_login,inst->linfo.keyboard,inst->linfo.language,inst->linfo.timezone,(char*)inst->pinfo.selected_partition);
 
 	  break;
 
@@ -399,12 +369,13 @@ void next_click(GtkApplication* app,gpointer data){
 		layout_next(inst->main_fixed,inst->layouts[inst->pos],inst->layouts[inst->pos+1],inst->listbox,inst->pos,inst->pos+1);
 		inst->pos++;
 	}
-	if(inst->pos==6){
+
+/*	if(inst->pos==6){
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
 		puts("installation start");
-		//install(inst);
+		install(inst);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
-	}
+	}*/
 
 }
 
