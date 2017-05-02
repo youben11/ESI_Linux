@@ -15,11 +15,11 @@ lang=${5}
 keymap=${6}
 
 hostname=${7}
-
+#/Region/City
+#/Africa/Algiers
 timezone=${8}
-#'yes' or 'no' 
+#'yes' or 'no'
 autologin=${9}
-
 
 ##########################################################
 #echo -e '\n[#@1]'
@@ -45,13 +45,13 @@ chmod 700 /mnt/root
 # we need to mount efi and swap partitions before that
 if test -d '/sys/firmware/efi/efivars'
 then
-	efi_part=$(fdisk -l | grep EFI | head -c 9)
+	efi_part=$install_disk$(parted /dev/sda print | grep EFI | tr -d ' ' | head -c 1)
 	mkdir /mnt/boot/efi
 	mount $efi_part /mnt/boot/efi
 fi
 
-swap_part=$(fdisk -l | grep swap | head -c 9)
-if [ "$swap_part" != "" ]
+swap_part=$install_disk$(parted /dev/sda print | grep swap | tr -d ' ' | head -c 1)
+if [ "$swap_part" != "$install_disk" ]
 then
 	swapon $swap_part
 fi
