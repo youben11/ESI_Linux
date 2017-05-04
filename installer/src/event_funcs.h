@@ -1,6 +1,12 @@
 #ifndef DEF_EVENT_FUNCS
 #define DEF_EVENT_FUNCS
 
+#include "structs.h"
+#include "init_funcs.h"
+#include <string.h>
+#include <ctype.h>
+#include "script_ctrl.h"
+
 void disk_choosed(installer* inst);
 void alert_dialog(GtkWindow* window,char* message);
 int isValidName(char* name);
@@ -10,6 +16,7 @@ int check_user_info(installer* inst);
 void exit_finish(GtkWidget *w, gpointer userdata);
 void layout_next(GtkFixed* main_fixed,GtkWidget* selected_layout,GtkWidget* wanted_layout,GtkListBox* listbox,gint selected, gint position);
 void next_click(GtkApplication* app,gpointer data);
+void back_click(GtkApplication* app,gpointer data);
 gboolean check_partition_info(installer* inst);
 void open_gparted(GtkWidget* w,gpointer data);
 void refresh_disk_list(GtkWidget* w , gpointer data);

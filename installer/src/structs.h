@@ -1,6 +1,9 @@
 #ifndef DEF_STRUCTS
 #define DEF_STRUCTS
 
+#include <gtk/gtk.h>
+#include <stdlib.h>
+
 typedef struct partition_info{
 		GtkGrid *partition_grid;
 		GtkComboBoxText *disk_list;

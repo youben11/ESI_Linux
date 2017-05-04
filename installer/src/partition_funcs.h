@@ -1,6 +1,11 @@
 #ifndef DEF_PART_FUNCS
 #define DEF_PART_FUNCS
 
+#include "simple_parted/sparted.h"
+#include <gtk/gtk.h>
+#include "structs.h"
+#include "event_funcs.h"
+
 gchar* fs_filter(gchar* filesystem);
 void fill_grid_row(GtkGrid* row,gchar* partition,gchar* name,gchar* filesystem,gchar* type,gchar* size);
 gchar* get_human_size(long long size);

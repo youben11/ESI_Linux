@@ -1,9 +1,4 @@
-#include "structs.h"
 #include "event_funcs.h"
-#include "init_funcs.c"
-#include <string.h>
-#include <ctype.h>
-#include "script_ctrl.h"
 
 #define INST_SCRIPT "./test.sh"
 
@@ -17,7 +12,6 @@ void* install(void* ins){
 
 	ps_info psinfo=script_ctrl(INST_SCRIPT,arg);
 
-	
 	//test party
 	FILE *script_stream = fdopen(psinfo.stdout_fd, "r");
 		if (script_stream == NULL){

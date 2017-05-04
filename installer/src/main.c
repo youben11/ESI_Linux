@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
-#include "event_funcs.c"
+#include "event_funcs.h"
+#include "init_funcs.h"
 
 
 

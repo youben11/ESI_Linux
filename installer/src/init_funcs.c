@@ -1,7 +1,4 @@
 #include "init_funcs.h"
-#include "simple_parted/sparted.h"
-#include <string.h>
-#include "partition_funcs.c"
 
 void init_user_info(installer* inst){
 
@@ -36,11 +33,13 @@ void init_zone_combo(GtkWidget* w, gpointer data){
 }
 
 void init_disk_list(installer* inst){
-	ped_device_free_all ();
+/*	ped_device_free_all ();
 	ped_device_probe_all();
  	PedDevice* pdv = NULL;
-	while ((pdv=ped_device_get_next(pdv)) != NULL)
-			gtk_combo_box_text_append_text(inst->pinfo.disk_list,pdv->path);
+	while ((pdv=ped_device_get_next(pdv)) != NULL)*/
+	SPedDevice devs=sped_get_device();
+	for(int i=0;i<devs.device_count;i++)
+			gtk_combo_box_text_append_text(inst->pinfo.disk_list,devs.device[i]->path);
 }
 
 void init_partition(GtkWidget *w, gpointer ins){
