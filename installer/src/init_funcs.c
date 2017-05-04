@@ -33,13 +33,31 @@ void init_zone_combo(GtkWidget* w, gpointer data){
 }
 
 void init_disk_list(installer* inst){
-/*	ped_device_free_all ();
-	ped_device_probe_all();
- 	PedDevice* pdv = NULL;
-	while ((pdv=ped_device_get_next(pdv)) != NULL)*/
+
 	SPedDevice devs=sped_get_device();
 	for(int i=0;i<devs.device_count;i++)
 			gtk_combo_box_text_append_text(inst->pinfo.disk_list,devs.device[i]->path);
+}
+
+void init_installation(installer* inst){
+
+	
+	inst->spinner[0]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"cp_file_spinner"));
+	inst->spinner[1]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"cp_kernel_spinner"));
+	inst->spinner[2]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ramdisk_spinner"));
+	inst->spinner[3]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"setup_spinner"));
+	inst->spinner[4]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"bootloader_spinner"));
+	inst->spinner[5]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ending_spinner"));
+
+	inst->image[0]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"cp_file_image"));
+	inst->image[1]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"cp_kernel_image"));
+	inst->image[2]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ramdisk_image"));
+	inst->image[3]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"setup_image"));
+	inst->image[4]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"bootloader_image"));
+	inst->image[5]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ending_image"));
+
+	gtk_spinner_start(inst->spinner[0]);
+
 }
 
 void init_partition(GtkWidget *w, gpointer ins){
@@ -174,6 +192,7 @@ void init_installer(installer* inst,GtkBuilder *builder){
   	init_listbox(inst->listbox);
   	init_user_info(inst);
   	init_time_lang(inst);
+  	init_installation(inst);
 
 }
 
@@ -194,28 +213,3 @@ void replace_layout(GtkFixed* container , GtkWidget* layout_to_destroy , GtkWidg
 	gtk_container_remove(GTK_CONTAINER(container),layout_to_destroy);
 	gtk_fixed_put(container,GTK_WIDGET(layout_to_put),0,0);
 }
-
-/*
-//Old one
-void init_partition(installer* inst){
-
-	SPedDisk disks=sped_get_disk();
-	char** disks_path=malloc(sizeof(char*)*disks.disk_count);
-	for(int i=0;i<disks.disk_count;i++){
-		disks_path[i]=malloc(sizeof(char)*(strlen(disks.disk[i]->dev->path)+1));
-		strcpy(disks_path[i],disks.disk[i]->dev->path);
-	}
-
-	GtkComboBoxText* disk_list=GTK_COMBO_BOX_TEXT(get_child_by_name(GTK_CONTAINER(inst->layouts[2]),"disk_list"));
-	
-	if(disk_list==NULL){
-		g_print("error in getting object disk_list\n");
-		return;
-	}
-	gtk_combo_box_text_remove_all(disk_list);
-
-	for(int i=0;i<disks.disk_count;i++){
-		gtk_combo_box_text_append(disk_list,NULL,disks_path[i]);
-	}
-
-}*/

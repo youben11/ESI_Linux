@@ -45,6 +45,8 @@ typedef struct installer{
 	GtkWidget* layouts[8];
 	GtkListBox* listbox;
 	GtkGrid* partition_grid;
+	GtkSpinner* spinner[6];
+	GtkImage* image[6];
 
 	user_info uinfo;
 	lang_time_info linfo;

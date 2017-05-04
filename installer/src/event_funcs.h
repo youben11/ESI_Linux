@@ -5,6 +5,7 @@
 #include "init_funcs.h"
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include "script_ctrl.h"
 
 void disk_choosed(installer* inst);
@@ -22,5 +23,6 @@ void open_gparted(GtkWidget* w,gpointer data);
 void refresh_disk_list(GtkWidget* w , gpointer data);
 void* install(void* ins);
 int check_time_lang(installer* inst);
+void installation_step_done(installer* inst,int pos);
 
 #endif

@@ -8,8 +8,9 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkGrid">
-        <property name="width_request">412</property>
+      <object class="GtkGrid" id="installation_grid">
+        <property name="name">installation_grid</property>
+        <property name="width_request">605</property>
         <property name="height_request">462</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -17,10 +18,10 @@
         <property name="column_spacing">20</property>
         <child>
           <object class="GtkSpinner">
+            <property name="name">cp_file_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="active">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -29,10 +30,10 @@
         </child>
         <child>
           <object class="GtkSpinner">
+            <property name="name">cp_kernel_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="active">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -41,10 +42,10 @@
         </child>
         <child>
           <object class="GtkSpinner">
+            <property name="name">ramdisk_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="active">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -53,10 +54,10 @@
         </child>
         <child>
           <object class="GtkSpinner">
+            <property name="name">setup_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="active">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -155,10 +156,10 @@
         </child>
         <child>
           <object class="GtkSpinner">
+            <property name="name">bootloader_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="active">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -167,10 +168,10 @@
         </child>
         <child>
           <object class="GtkSpinner">
+            <property name="name">ending_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="active">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -180,7 +181,85 @@
       </object>
       <packing>
         <property name="x">36</property>
-        <property name="y">31</property>
+        <property name="y">32</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage">
+        <property name="name">cp_file_image</property>
+        <property name="width_request">62</property>
+        <property name="height_request">42</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-missing-image</property>
+      </object>
+      <packing>
+        <property name="x">591</property>
+        <property name="y">19</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage">
+        <property name="name">cp_kernel_image</property>
+        <property name="width_request">62</property>
+        <property name="height_request">42</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-missing-image</property>
+      </object>
+      <packing>
+        <property name="x">591</property>
+        <property name="y">99</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage">
+        <property name="name">ramdisk_image</property>
+        <property name="width_request">62</property>
+        <property name="height_request">42</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-missing-image</property>
+      </object>
+      <packing>
+        <property name="x">590</property>
+        <property name="y">179</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage">
+        <property name="name">setup_image</property>
+        <property name="width_request">62</property>
+        <property name="height_request">42</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-missing-image</property>
+      </object>
+      <packing>
+        <property name="x">590</property>
+        <property name="y">256</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage">
+        <property name="name">bootloader_image</property>
+        <property name="width_request">62</property>
+        <property name="height_request">42</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-missing-image</property>
+      </object>
+      <packing>
+        <property name="x">590</property>
+        <property name="y">337</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage">
+        <property name="name">ending_image</property>
+        <property name="width_request">62</property>
+        <property name="height_request">42</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-missing-image</property>
+      </object>
+      <packing>
+        <property name="x">591</property>
+        <property name="y">417</property>
       </packing>
     </child>
   </object>

@@ -12,20 +12,28 @@ void* install(void* ins){
 
 	ps_info psinfo=script_ctrl(INST_SCRIPT,arg);
 
-	//test party
+	//open the pipe between the installation_script process and the installer process
 	FILE *script_stream = fdopen(psinfo.stdout_fd, "r");
 		if (script_stream == NULL){
 			perror("can't open file descriptor");
 			return NULL;
 		}
 
-		char buffer[4096];
+		char buffer[32];
+		char step[2];
+		int pos=0;
 
-		//int catch_it=0;
 		while ( fgets(buffer, sizeof(buffer), script_stream) ) {
-			//if (catch_it)
-				printf("%s",buffer);
-			//catch_it = (strncmp(buffer, "[#@", 3) == 0);
+			
+			if(isdigit(*buffer)){
+				step[0]=buffer[0];
+				step[1]='\0';	
+				pos=atoi(step);
+
+				installation_step_done(inst,pos);
+
+			}	
+			
 		}
 
 		// closing the pipes read ends
@@ -45,6 +53,22 @@ void* install(void* ins){
 
     //enable next button
     gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
+}
+
+void installation_step_done(installer* inst,int pos){
+
+	const int max=6;
+
+	if(pos>max)
+		return;
+
+	gtk_spinner_stop(inst->spinner[pos-1]);
+
+	gtk_widget_set_visible(GTK_WIDGET(inst->image[pos-1]),TRUE);
+	gtk_image_set_from_file(inst->image[pos-1],"res/checked.png");
+
+	if(pos!=max)
+		gtk_spinner_start(inst->spinner[pos]);		
 	
 }
 
@@ -63,6 +87,8 @@ void refresh_disk_list(GtkWidget* w , gpointer data){
   	gtk_label_set_text(inst->pinfo.disk_size,"");
 	gtk_label_set_text(inst->pinfo.disk_name,"");
 	g_signal_connect(G_OBJECT(inst->pinfo.disk_list),"changed",G_CALLBACK(init_partition),inst);
+
+	gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
 
 }
 
@@ -338,11 +364,11 @@ void next_click(GtkApplication* app,gpointer data){
 	  case 4: // user
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[0]),TRUE);
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
-		if(checked=check_user_info(inst)){
+		//if(checked=check_user_info(inst)){
 			save_user_info(inst);
 			gtk_button_set_label(inst->buttons[1],"Installer");
 			init_summary(inst);
-		}
+		//}
 
 	  break;
 
@@ -371,8 +397,6 @@ void next_click(GtkApplication* app,gpointer data){
 
 	if(inst->pos==6){
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
-		puts("installation start");
-		
 /*		while (gtk_events_pending ()){
 
   			gtk_main_iteration (); 
