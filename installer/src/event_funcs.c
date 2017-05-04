@@ -5,11 +5,13 @@
 #include <ctype.h>
 #include "script_ctrl.h"
 
-#define INST_SCRIPT "./install.sh"
+#define INST_SCRIPT "./test.sh"
 
 
 
-void install(installer* inst){
+void* install(void* ins){
+
+	installer* inst=(installer*)ins;
 
 	char* arg[]={INST_SCRIPT,(char*)inst->pinfo.selected_partition,inst->uinfo.username,inst->uinfo.password,inst->uinfo.password,"en_US.UTF-8","fr",inst->uinfo.hostname,NULL};
 
@@ -20,7 +22,7 @@ void install(installer* inst){
 	FILE *script_stream = fdopen(psinfo.stdout_fd, "r");
 		if (script_stream == NULL){
 			perror("can't open file descriptor");
-			return ;
+			return NULL;
 		}
 
 		char buffer[4096];
@@ -39,13 +41,16 @@ void install(installer* inst){
 		//waiting for the child process to terminate
 		if ( waitpid(psinfo.pid,&pid_status,0) == -1 ){
 			perror("ERROR while waiting for child process");
-			return ;
+			return NULL;
 		}
 		//checking the exit status of the child process
 		if (WEXITSTATUS(pid_status)){
 			perror("ERROR exit status of the child process is diffrent from zero");
-			return ;
+			return NULL;
     }
+
+    //enable next button
+    gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 	
 }
 
@@ -370,12 +375,20 @@ void next_click(GtkApplication* app,gpointer data){
 		inst->pos++;
 	}
 
-/*	if(inst->pos==6){
+	if(inst->pos==6){
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
 		puts("installation start");
-		install(inst);
-		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
-	}*/
+		
+/*		while (gtk_events_pending ()){
+
+  			gtk_main_iteration (); 
+		}
+*/
+		//start new thread
+		pthread_t tid;
+		pthread_create(&tid,NULL,install,inst);
+		
+	}
 
 }
 
