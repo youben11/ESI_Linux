@@ -1,25 +1,35 @@
 #!/bin/bash
 
-#"/dev/sda1"
+##########################################################
+# "/dev/sda1"
 install_part=${1}
-#"/dev/sda"
-install_disk=$(echo "$install_part" | head -c 3)
+# "/dev/sda"
+install_disk=$(echo "$install_part" | head -c 8)
 
 user_name=${2}
 user_pass=${3}
 root_pass=${4}
 
-#"en_US.UTF-8"
+# "en_US.UTF-8"
 lang=${5}
-#"fr"
+# "fr"
 keymap=${6}
 hostname=${7}
-
+# /Region/City ex: /Africa/Algiers
 timezone=${8}
-#'yes' or 'no'
+# 'yes' or 'no'
 autologin=${9}
-
-#post install  :
+##########################################################
+LOG_STDOUT='install_log_stdout.log'
+LOG_STDERR='install_log_stderr.log'
+##########################################################
+# saves stdout in FD_INSTALLER
+exec {FD_INSTALLER}>&1
+# stdout replaced with the LOG_STDOUT file
+exec 1>${LOG_STDOUT}
+# stderr replaced with the LOG_STDERR file
+exec 2>${LOG_STDERR}
+##########################################################
 
 #updating the keymap
 echo "KEYMAP=$keymap" > /etc/vconsole.conf
