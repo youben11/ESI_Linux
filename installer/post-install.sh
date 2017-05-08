@@ -2,23 +2,23 @@
 
 ##########################################################
 # "/dev/sda1"
-install_part=${1}
+INSTALL_PART=${1}
 # "/dev/sda"
-install_disk=$(echo "$install_part" | head -c 8)
+INSTALL_DISK=$(echo "$INSTALL_PART" | head -c 8)
 
-user_name=${2}
-user_pass=${3}
-root_pass=${4}
+USER_NAME=${2}
+USER_PASS=${3}
+ROOT_PASS=${4}
 
 # "en_US.UTF-8"
-lang=${5}
+LANG=${5}
 # "fr"
-keymap=${6}
-hostname=${7}
+KEYMAP=${6}
+HOSTNAME=${7}
 # /Region/City ex: /Africa/Algiers
-timezone=${8}
+TIMEZONE=${8}
 # 'yes' or 'no'
-autologin=${9}
+AUTOLOGIN=${9}
 ##########################################################
 LOG_STDOUT='install_log_stdout.log'
 LOG_STDERR='install_log_stderr.log'
@@ -31,37 +31,37 @@ exec 1>${LOG_STDOUT}
 exec 2>${LOG_STDERR}
 ##########################################################
 
-#updating the keymap
-echo "KEYMAP=$keymap" > /etc/vconsole.conf
+#updating the KEYMAP
+echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
 
-#update the language
-echo "LANG=$lang" > /etc/locale.conf
+#update the LANGuage
+echo "LANG=$LANG" > /etc/locale.conf
 
-#updating the hostname
-echo "$hostname" > /etc/hostname
+#updating the HOSTNAME
+echo "$HOSTNAME" > /etc/hostname
 
-#timezone
-ln -sf /usr/share/zoneinfo$timezone /etc/localtime
+#TIMEZONE
+ln -sf /usr/share/zoneinfo$TIMEZONE /etc/localtime
 
-# autologin
-if [ "$autologin" == "yes" ]
+# AUTOLOGIN
+if [ "$AUTOLOGIN" == "yes" ]
 then
-	sed -i "s/etudiant/$user_name/" /etc/gdm/custom.conf
+	sed -i "s/etudiant/$USER_NAME/" /etc/gdm/custom.conf
 else
-	# disable autologin
-	sed -i "s/.*AutomaticLogin=.*/#AutomaticLogin=$user_name/" /etc/gdm/custom.conf
+	# disable AUTOLOGIN
+	sed -i "s/.*AutomaticLogin=.*/#AutomaticLogin=$USER_NAME/" /etc/gdm/custom.conf
 	sed -i 's/.*AutomaticLoginEnable=.*/#AutomaticLoginEnable=True/' /etc/gdm/custom.conf
 fi
 
-#updating the user_name login and home folder
-usermod -l "$user_name" -d /home/$user_name -m "etudiant"
+#updating the USER_NAME login and home folder
+usermod -l "$USER_NAME" -d /home/$user_name -m "etudiant"
 #updating the group_name
-groupmod -n "$user_name" "users"
-#replacing the user_name "etudiant" with the new user_name in the sudoers file
-sed -i "s/etudiant/$user_name/" /etc/sudoers
+groupmod -n "$USER_NAME" "users"
+#replacing the USER_NAME "etudiant" with the new user_name in the sudoers file
+sed -i "s/etudiant/$USER_NAME/" /etc/sudoers
 
 #updating the passwords
-echo -e "$user_name:$user_pass\nroot:$root_pass" | chpasswd -c SHA512
+echo -e "$USER_NAME:$USER_PASS\nroot:$ROOT_PASS" | chpasswd -c SHA512
 
 #creat the initial ramdisk env
 mkinitcpio -p linux-lts
@@ -69,9 +69,9 @@ mkinitcpio -p linux-lts
 #installing grub
 if test -d '/sys/firmware/efi/efivars'
 then
-	grub-install $install_disk --target=x86_64-efi --recheck --no-floppy
+	grub-install $INSTALL_DISK --target=x86_64-efi --recheck --no-floppy
 else
-	grub-install $install_disk --target=i386-pc --recheck -no-floppy
+	grub-install $INSTALL_DISK --target=i386-pc --recheck -no-floppy
 fi
 
 # activate splash screen for grub
