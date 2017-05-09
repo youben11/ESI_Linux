@@ -42,7 +42,7 @@ void init_zone_combo(GtkWidget* w, gpointer data){
 	gchar* active_region = gtk_combo_box_text_get_active_text(inst->linfo.region_combo);
 	gchar* tmp_region = malloc(20);
 	gchar* tmp_zone = malloc(20);
-	inst->linfo.timezone_file=fopen("res/timezone.txt","r");
+	inst->linfo.timezone_file=fopen("ui/timezone.txt","r");
 	while (!feof(inst->linfo.timezone_file)){
   		fscanf(inst->linfo.timezone_file,"%s\n",tmp);
 			tmp_region=strtok(tmp,"/");
