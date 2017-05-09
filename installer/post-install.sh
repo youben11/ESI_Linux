@@ -74,9 +74,4 @@ else
 	grub-install $INSTALL_DISK --target=i386-pc --recheck -no-floppy
 fi
 
-# activate splash screen for grub
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/' /etc/default/grub
-
-sed -i 's/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR="ESI"/' /etc/default/grub
-
 grub-mkconfig -o /boot/grub/grub.cfg
