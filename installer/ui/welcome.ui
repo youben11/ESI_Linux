@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.20.0 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkLayout" id="welcome_layout">
+    <property name="name">welcome_layout</property>
+    <property name="width_request">830</property>
+    <property name="height_request">500</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="width_request">830</property>
+        <property name="height_request">300</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_left">40</property>
+        <property name="label" translatable="yes">
+
+ESI Linux est un système d'exploitation destiné aux étudiants en informatique, en particulier  ceux de l'École Supérieure en Informatique. Il fournit tout les principaux outils nécessaire durant leur cursus.
+
+ESI Linux est basé sur la distribution Arch Linux et hérite de ses nombreux avantages :
+ personnalisation, modularité, simplicité, stabilité, ..etc
+
+
+ESI Linux est un projet Open Source, ainsi que tout ses composants, il a été développé dans son intégralité par un groupe d'étudiants de l'École Supérieure en Informatique de Sidi Bel Abbes dans
+le cadre du projet pluridisciplinaire du quatrième semestre et sous l'encadrement de Mme Elouali.
+
+
+ESI Linux est distribué dans l'espoir qu'il sera utile à ses utilisateurs, mais SANS AUCUNE GARANTIE;
+ Sans même la garantie implicite de QUALITÉ MARCHANDE ou D'ADAPTATION À UN USAGE
+PARTICULIER.Les termes de la licence sont détaillés dans la GNU General Public License qui suit.</property>
+        <property name="justify">center</property>
+        <property name="wrap">True</property>
+      </object>
+      <packing>
+        <property name="x">-40</property>
+        <property name="y">162</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage" id="welcome_image">
+        <property name="width_request">300</property>
+        <property name="height_request">120</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="x">262</property>
+        <property name="y">67</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="height_request">40</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Bienvenue dans l'installation de</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">214</property>
+        <property name="y">23</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="height_request">40</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">ESI Linux</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+          <attribute name="foreground" value="#17179292cfcf"/>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">525</property>
+        <property name="y">23</property>
+      </packing>
+    </child>
+  </object>
+</interface>

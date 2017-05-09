@@ -206,12 +206,11 @@
       </packing>
     </child>
     <child>
-      <object class="GtkImage">
+      <object class="GtkImage" id="lang_image">
         <property name="width_request">110</property>
         <property name="height_request">110</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="pixbuf">lang.png</property>
       </object>
       <packing>
         <property name="x">280</property>
@@ -219,12 +218,11 @@
       </packing>
     </child>
     <child>
-      <object class="GtkImage">
+      <object class="GtkImage" id="time_image">
         <property name="width_request">128</property>
         <property name="height_request">128</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="pixbuf">region.png</property>
       </object>
       <packing>
         <property name="x">450</property>

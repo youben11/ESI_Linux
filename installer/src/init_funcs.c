@@ -1,5 +1,27 @@
 #include "init_funcs.h"
 
+void init_images(installer* inst, GtkBuilder* builder){
+	GtkImage *logo_img,*welcome_img,*disk_img,*refresh_img,*lang_img,*time_img,*user_img,*password_img;
+
+	logo_img = GTK_IMAGE(gtk_builder_get_object(builder,"logo_image"));
+	welcome_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[0],"welcome_image"));
+	disk_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[2],"disk_image"));
+	refresh_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[2],"refresh_image"));
+	lang_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[3],"lang_image"));
+	time_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[3],"time_image"));
+	user_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[4],"user_image"));
+	password_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[4],"password_image"));
+
+	gtk_image_set_from_file(logo_img,"img/logo.png");
+	gtk_image_set_from_file(welcome_img,"img/welcome.png");
+	gtk_image_set_from_file(disk_img,"img/harddisk.png");
+	gtk_image_set_from_file(refresh_img,"img/refresh.png");
+	gtk_image_set_from_file(lang_img,"img/lang.png");
+	gtk_image_set_from_file(time_img,"img/time.png");
+	gtk_image_set_from_file(user_img,"img/username.png");
+	gtk_image_set_from_file(password_img,"img/password.png");
+}
+
 void init_user_info(installer* inst){
 
 	if(inst==NULL) return;
@@ -57,6 +79,7 @@ void init_installation(installer* inst){
 	inst->image[5]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ending_image"));
 
 	gtk_spinner_start(inst->spinner[0]);
+	
 
 }
 
@@ -113,6 +136,36 @@ void init_time_lang(installer* inst){
 }
 
 void init_summary(installer* inst){
+  GtkLabel *lpartition,*ltimezone,*lkeyboard,*llanguage,*lusername,*lhostname,*lautologin,*lsize,*lbootloader;
+	lpartition=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"partition_summary"));
+	ltimezone=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"timezone_summary"));
+	lkeyboard=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"keyboard_summary"));
+	llanguage=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"language_summary"));
+	lusername=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"username_summary"));
+	lhostname=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"hostname_summary"));
+	lautologin=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"autologin_summary"));
+	lbootloader=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"bootloader_summary"));
+  	lsize=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[5]),"size_summary"));
+
+	gtk_label_set_text(lpartition,inst->pinfo.selected_partition);
+	gtk_label_set_text(ltimezone,inst->linfo.timezone);
+	gtk_label_set_text(lkeyboard,inst->linfo.keyboard);
+	if (!strcmp(inst->linfo.language,"fr"))
+			gtk_label_set_text(llanguage,"Français (AZERTY)");
+	else
+			gtk_label_set_text(llanguage,"Anglais (QWERTY)");
+	gtk_label_set_text(lusername,inst->uinfo.username);
+	gtk_label_set_text(lhostname,inst->uinfo.hostname);
+	gtk_label_set_text(lsize,get_human_size(inst->pinfo.spartition_size));
+	if (inst->uinfo.auto_login==1)
+			gtk_label_set_text(lautologin,"Oui");
+	else
+			gtk_label_set_text(lautologin,"Non");
+	gtk_label_set_text(lbootloader,inst->pinfo.selected_disk);
+}
+
+/*Old one
+void init_summary(installer* inst){
 
 	GtkLabel *partition,*lang,*keyboard,*timezone,*username,*hostname,*auto_login;
 
@@ -135,18 +188,18 @@ void init_summary(installer* inst){
 	gtk_label_set_text(hostname,inst->uinfo.hostname);
 	gtk_label_set_text(auto_login,(inst->uinfo.auto_login==1)?"OUI":"NON");
 
-}
+}*/
 
 void init_builders(installer* inst){
 	for (int i=0; i<8;i++)	inst->builders[i]=gtk_builder_new();
-	gtk_builder_add_from_file(inst->builders[0],"res/welcome.ui", NULL);
-	gtk_builder_add_from_file(inst->builders[1],"res/license.ui", NULL);
-	gtk_builder_add_from_file(inst->builders[2],"res/partition.ui", NULL);
-  	gtk_builder_add_from_file(inst->builders[3],"res/langtime.ui", NULL);
-  	gtk_builder_add_from_file(inst->builders[4],"res/user.ui", NULL);
-  	gtk_builder_add_from_file(inst->builders[5],"res/summary.ui", NULL);
-  	gtk_builder_add_from_file(inst->builders[6],"res/installation.ui", NULL);
-  	gtk_builder_add_from_file(inst->builders[7],"res/end.ui", NULL);
+	gtk_builder_add_from_file(inst->builders[0],"ui/welcome.ui", NULL);
+	gtk_builder_add_from_file(inst->builders[1],"ui/license.ui", NULL);
+	gtk_builder_add_from_file(inst->builders[2],"ui/partition.ui", NULL);
+  	gtk_builder_add_from_file(inst->builders[3],"ui/langtime.ui", NULL);
+  	gtk_builder_add_from_file(inst->builders[4],"ui/user.ui", NULL);
+  	gtk_builder_add_from_file(inst->builders[5],"ui/summary.ui", NULL);
+  	gtk_builder_add_from_file(inst->builders[6],"ui/installation.ui", NULL);
+  	gtk_builder_add_from_file(inst->builders[7],"ui/end.ui", NULL);
 }
 
 void init_listbox(GtkListBox* listbox){
@@ -175,7 +228,7 @@ void init_installer(installer* inst,GtkBuilder *builder){
 	init_builders(inst);
   	init_layout(inst);
 
-	gtk_builder_add_from_file(builder, "res/installer.ui", NULL);
+	gtk_builder_add_from_file(builder, "ui/installer.ui", NULL);
   	inst->pos=0;
   	inst->listbox = GTK_LIST_BOX(gtk_builder_get_object(builder,"listbox"));
   	inst->main_fixed = GTK_FIXED(gtk_builder_get_object(builder,"main_fixed"));
@@ -193,6 +246,7 @@ void init_installer(installer* inst,GtkBuilder *builder){
   	init_user_info(inst);
   	init_time_lang(inst);
   	init_installation(inst);
+  	init_images(inst,builder);
 
 }
 

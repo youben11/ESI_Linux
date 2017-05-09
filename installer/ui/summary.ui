@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.20.0 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkFixed" id="summary_layout">
+    <property name="width_request">800</property>
+    <property name="height_request">500</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Localisation</property>
+        <attributes>
+          <attribute name="weight" value="semibold"/>
+          <attribute name="size" value="21000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">46</property>
+        <property name="y">32</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Fuseau horaire définie sur : </property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">75</property>
+        <property name="y">75</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="timezone_summary">
+        <property name="name">timezone_summary</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">GMT+1</property>
+        <attributes>
+          <attribute name="font-desc" value="DejaVu Sans Semi-Condensed 14"/>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">331</property>
+        <property name="y">76</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Langue</property>
+        <attributes>
+          <attribute name="weight" value="semibold"/>
+          <attribute name="size" value="21000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">46</property>
+        <property name="y">112</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Langue du système :</property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">75</property>
+        <property name="y">153</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Disposition du clavier :</property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">75</property>
+        <property name="y">184</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="language_summary">
+        <property name="name">language_summary</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">Anglais</property>
+        <attributes>
+          <attribute name="font-desc" value="DejaVu Sans Semi-Condensed 14"/>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">274</property>
+        <property name="y">153</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="keyboard_summary">
+        <property name="name">keyboard_summary</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">EN</property>
+        <attributes>
+          <attribute name="font-desc" value="DejaVu Sans Semi-Condensed 14"/>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">290</property>
+        <property name="y">185</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Système</property>
+        <attributes>
+          <attribute name="weight" value="semibold"/>
+          <attribute name="size" value="21000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">46</property>
+        <property name="y">220</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Nom d'utilisateur : </property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">75</property>
+        <property name="y">263</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Nom de la machine : </property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">75</property>
+        <property name="y">294</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="username_summary">
+        <property name="name">username_summary</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">youben</property>
+        <attributes>
+          <attribute name="font-desc" value="DejaVu Sans Semi-Condensed 14"/>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">260</property>
+        <property name="y">264</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="hostname_summary">
+        <property name="name">hostname_summary</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">youben</property>
+        <attributes>
+          <attribute name="font-desc" value="DejaVu Sans Semi-Condensed 14"/>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">267</property>
+        <property name="y">295</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Partitions</property>
+        <attributes>
+          <attribute name="weight" value="semibold"/>
+          <attribute name="size" value="21000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">46</property>
+        <property name="y">368</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Création d'une nouvelle partition </property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">75</property>
+        <property name="y">411</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Connexion automatique : </property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">75</property>
+        <property name="y">327</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="autologin_summary">
+        <property name="name">autologin_summary</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">ON</property>
+        <attributes>
+          <attribute name="font-desc" value="DejaVu Sans Semi-Condensed 14"/>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">310</property>
+        <property name="y">329</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">ext4</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">378</property>
+        <property name="y">412</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">de</property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">428</property>
+        <property name="y">411</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="size_summarh">
+        <property name="name">size_summary</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">100GB</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">460</property>
+        <property name="y">411</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Installation de ESI Linux dans </property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">74</property>
+        <property name="y">442</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="partition_summary">
+        <property name="name">partition_summary</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">/dev/sda</property>
+        <attributes>
+          <attribute name="font-desc" value="DejaVu Sans Semi-Condensed 14"/>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">340</property>
+        <property name="y">443</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Installtion du bootloader dans </property>
+        <attributes>
+          <attribute name="size" value="15000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">74</property>
+        <property name="y">473</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="bootloader_summary">
+        <property name="name">bootloader_summary</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">/dev/sda</property>
+        <attributes>
+          <attribute name="font-desc" value="DejaVu Sans Semi-Condensed 14"/>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">354</property>
+        <property name="y">473</property>
+      </packing>
+    </child>
+  </object>
+</interface>
