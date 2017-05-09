@@ -21,7 +21,9 @@ typedef struct user_info{
 	char* password;
 	char* hostname;
 	int auto_login;
-
+	GtkButton* showpass_button;
+	gboolean visible;
+	
 }user_info;
 
 typedef struct lang_time_info{

@@ -1,7 +1,7 @@
 #include "init_funcs.h"
 
 void init_images(installer* inst, GtkBuilder* builder){
-	GtkImage *logo_img,*welcome_img,*disk_img,*refresh_img,*lang_img,*time_img,*user_img,*password_img;
+	GtkImage *logo_img,*welcome_img,*disk_img,*refresh_img,*lang_img,*time_img,*user_img,*password_img,*showpass_img;
 
 	logo_img = GTK_IMAGE(gtk_builder_get_object(builder,"logo_image"));
 	welcome_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[0],"welcome_image"));
@@ -11,6 +11,7 @@ void init_images(installer* inst, GtkBuilder* builder){
 	time_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[3],"time_image"));
 	user_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[4],"user_image"));
 	password_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[4],"password_image"));
+	showpass_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[4],"showpass_image"));
 
 	gtk_image_set_from_file(logo_img,"img/logo.png");
 	gtk_image_set_from_file(welcome_img,"img/welcome.png");
@@ -20,6 +21,7 @@ void init_images(installer* inst, GtkBuilder* builder){
 	gtk_image_set_from_file(time_img,"img/time.png");
 	gtk_image_set_from_file(user_img,"img/username.png");
 	gtk_image_set_from_file(password_img,"img/password.png");
+	gtk_image_set_from_file(showpass_img,"img/show_pass.png");
 }
 
 void init_user_info(installer* inst){
@@ -30,6 +32,8 @@ void init_user_info(installer* inst){
 	inst->uinfo.hostname=malloc(21*sizeof(char));
 	inst->uinfo.password=malloc(21*sizeof(char));
 	inst->uinfo.auto_login=1;
+	inst->uinfo.visible=FALSE;
+	inst->uinfo.showpass_button=GTK_BUTTON(gtk_builder_get_object(inst->builders[4],"showpass_button"));
 
 	return;
 }
@@ -66,17 +70,17 @@ void init_installation(installer* inst){
 	
 	inst->spinner[0]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"cp_file_spinner"));
 	inst->spinner[1]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"cp_kernel_spinner"));
-	inst->spinner[2]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ramdisk_spinner"));
-	inst->spinner[3]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"setup_spinner"));
-	inst->spinner[4]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"bootloader_spinner"));
-	inst->spinner[5]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ending_spinner"));
+	inst->spinner[2]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"system_conf_spinner"));
+	inst->spinner[3]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"user_conf_spinner"));
+	inst->spinner[4]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ramdisk_spinner"));
+	inst->spinner[5]=GTK_SPINNER(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"bootloader_spinner"));
 
 	inst->image[0]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"cp_file_image"));
 	inst->image[1]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"cp_kernel_image"));
-	inst->image[2]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ramdisk_image"));
-	inst->image[3]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"setup_image"));
-	inst->image[4]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"bootloader_image"));
-	inst->image[5]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ending_image"));
+	inst->image[2]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"system_conf_image"));
+	inst->image[3]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"user_conf_image"));
+	inst->image[4]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"ramdisk_image"));
+	inst->image[5]=GTK_IMAGE(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"bootloader_image"));
 
 	gtk_spinner_start(inst->spinner[0]);
 	

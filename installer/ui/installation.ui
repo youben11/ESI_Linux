@@ -10,11 +10,11 @@
     <child>
       <object class="GtkGrid" id="installation_grid">
         <property name="name">installation_grid</property>
-        <property name="width_request">605</property>
-        <property name="height_request">462</property>
+        <property name="width_request">506</property>
+        <property name="height_request">337</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="row_spacing">60</property>
+        <property name="row_spacing">40</property>
         <property name="column_spacing">20</property>
         <child>
           <object class="GtkSpinner">
@@ -42,7 +42,7 @@
         </child>
         <child>
           <object class="GtkSpinner">
-            <property name="name">ramdisk_spinner</property>
+            <property name="name">system_conf_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -54,7 +54,7 @@
         </child>
         <child>
           <object class="GtkSpinner">
-            <property name="name">setup_spinner</property>
+            <property name="name">user_conf_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -84,7 +84,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
-            <property name="label" translatable="yes">Copie du kernel</property>
+            <property name="label" translatable="yes">Copie du noyeau</property>
             <attributes>
               <attribute name="font-desc" value="URW Gothic 14"/>
             </attributes>
@@ -99,7 +99,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
-            <property name="label" translatable="yes">Generation de la ramdisk</property>
+            <property name="label" translatable="yes">Personalisation du système</property>
             <attributes>
               <attribute name="font-desc" value="URW Gothic 14"/>
             </attributes>
@@ -114,7 +114,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
-            <property name="label" translatable="yes">Configuration du systeme et application des personalisations</property>
+            <property name="label" translatable="yes">Application des paramètres utilisateur</property>
             <attributes>
               <attribute name="font-desc" value="URW Gothic 14"/>
             </attributes>
@@ -129,7 +129,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
-            <property name="label" translatable="yes">Installation du bootloader</property>
+            <property name="label" translatable="yes">Génération du init RAM disk</property>
             <attributes>
               <attribute name="font-desc" value="URW Gothic 14"/>
             </attributes>
@@ -144,7 +144,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
-            <property name="label" translatable="yes">Finalisation de l'installation</property>
+            <property name="label" translatable="yes">Installation du bootloader</property>
             <attributes>
               <attribute name="font-desc" value="URW Gothic 14"/>
             </attributes>
@@ -156,7 +156,7 @@
         </child>
         <child>
           <object class="GtkSpinner">
-            <property name="name">bootloader_spinner</property>
+            <property name="name">ramdisk_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -168,7 +168,7 @@
         </child>
         <child>
           <object class="GtkSpinner">
-            <property name="name">ending_spinner</property>
+            <property name="name">bootloader_spinner</property>
             <property name="width_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -180,8 +180,8 @@
         </child>
       </object>
       <packing>
-        <property name="x">36</property>
-        <property name="y">32</property>
+        <property name="x">159</property>
+        <property name="y">76</property>
       </packing>
     </child>
     <child>
@@ -193,8 +193,8 @@
         <property name="stock">gtk-missing-image</property>
       </object>
       <packing>
-        <property name="x">591</property>
-        <property name="y">19</property>
+        <property name="x">509</property>
+        <property name="y">65</property>
       </packing>
     </child>
     <child>
@@ -206,8 +206,34 @@
         <property name="stock">gtk-missing-image</property>
       </object>
       <packing>
-        <property name="x">591</property>
-        <property name="y">99</property>
+        <property name="x">509</property>
+        <property name="y">123</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage">
+        <property name="name">system_conf_image</property>
+        <property name="width_request">62</property>
+        <property name="height_request">42</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-missing-image</property>
+      </object>
+      <packing>
+        <property name="x">510</property>
+        <property name="y">183</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage">
+        <property name="name">user_conf_image</property>
+        <property name="width_request">62</property>
+        <property name="height_request">42</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-missing-image</property>
+      </object>
+      <packing>
+        <property name="x">509</property>
+        <property name="y">242</property>
       </packing>
     </child>
     <child>
@@ -219,21 +245,8 @@
         <property name="stock">gtk-missing-image</property>
       </object>
       <packing>
-        <property name="x">590</property>
-        <property name="y">179</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkImage">
-        <property name="name">setup_image</property>
-        <property name="width_request">62</property>
-        <property name="height_request">42</property>
-        <property name="can_focus">False</property>
-        <property name="stock">gtk-missing-image</property>
-      </object>
-      <packing>
-        <property name="x">590</property>
-        <property name="y">256</property>
+        <property name="x">509</property>
+        <property name="y">300</property>
       </packing>
     </child>
     <child>
@@ -245,21 +258,8 @@
         <property name="stock">gtk-missing-image</property>
       </object>
       <packing>
-        <property name="x">590</property>
-        <property name="y">337</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkImage">
-        <property name="name">ending_image</property>
-        <property name="width_request">62</property>
-        <property name="height_request">42</property>
-        <property name="can_focus">False</property>
-        <property name="stock">gtk-missing-image</property>
-      </object>
-      <packing>
-        <property name="x">591</property>
-        <property name="y">417</property>
+        <property name="x">509</property>
+        <property name="y">360</property>
       </packing>
     </child>
   </object>

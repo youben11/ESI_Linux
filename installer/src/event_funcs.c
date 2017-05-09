@@ -3,7 +3,17 @@
 #define INST_SCRIPT "./scripts/test.sh"
 
 
-
+/*
+	formatage
+	montage
+	copie des fichier
+	copie du kernel
+	personallisation application des configuration
+	reglage de l'utilisateur
+	genration de la ramdisk
+	installation du bootloader
+	finalisation
+*/
 void* install(void* ins){
 
 	installer* inst=(installer*)ins;
@@ -70,6 +80,23 @@ void installation_step_done(installer* inst,int pos){
 	
 }
 
+void showpass_event(GtkWidget* w, gpointer data){
+		installer* inst = (installer*) data;
+		GtkEntry* entry_pass = GTK_ENTRY(gtk_builder_get_object(inst->builders[4],"ent-password"));
+		GtkEntry* entry_pass_confirm = GTK_ENTRY(gtk_builder_get_object(inst->builders[4],"ent-passwordConf"));
+		GtkImage* showpass_image = GTK_IMAGE(gtk_builder_get_object(inst->builders[4],"showpass_image"));
+		if (inst->uinfo.visible==FALSE){
+			gtk_entry_set_visibility(entry_pass,TRUE);
+			gtk_entry_set_visibility(entry_pass_confirm,TRUE);
+			inst->uinfo.visible=TRUE;
+		}
+		else{
+			gtk_entry_set_visibility(entry_pass,FALSE);
+			gtk_entry_set_visibility(entry_pass_confirm,FALSE);
+			inst->uinfo.visible=FALSE;
+		}
+}
+
 void open_gparted(GtkWidget* w,gpointer data){
 	system("gparted");
 }
@@ -103,7 +130,7 @@ void alert_dialog(GtkWindow* window,char* message){
 	GtkMessageDialog *dialog=GTK_MESSAGE_DIALOG(gtk_message_dialog_new(window,
 																		GTK_DIALOG_DESTROY_WITH_PARENT,
 																		GTK_MESSAGE_INFO,
-																		GTK_BUTTONS_OK,
+																		GTK_BUTTONS_CLOSE,
 																		message));
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -247,7 +274,7 @@ int check_user_info(installer* inst){
 	strcpy(pass2,gtk_entry_get_text(password2));
 
 	if(strlen(uname)==0){
-		alert_dialog(inst->window,"Vous devez entrez un nom d'utilisateur");
+		alert_dialog(inst->window,"Vous devez entrer un nom d'utilisateur");
 		return 0;
 	}
 
@@ -257,12 +284,12 @@ int check_user_info(installer* inst){
 	}
 
 	if(!isValidName(uname)){
-		alert_dialog(inst->window,"Le nom d'utilisateur doit contenir que des lettres et des nombre ou un tiret(-) ");
+		alert_dialog(inst->window,"Le nom d'utilisateur ne doit contenir que des lettres et des nombres ou un tiret(-) ");
 		return 0;
 	}
 
 	if(strlen(hname)==0){
-		alert_dialog(inst->window,"Vous devez entrez un nom de machine");
+		alert_dialog(inst->window,"Vous devez entrer un nom de machine");
 		return 0;
 	}
 
@@ -272,17 +299,17 @@ int check_user_info(installer* inst){
 	}
 
 	if(!isValidName(hname)){
-		alert_dialog(inst->window,"Le nom de la machine doit contenir que des lettres et des nombre ou un tiret(-) ");
+		alert_dialog(inst->window,"Le nom de la machine ne doit contenir que des lettres et des nombres ou un tiret(-) ");
 		return 0;
 	}
 
 	if(strlen(pass)==0){
-		alert_dialog(inst->window,"Vous devez entrez un mot de passe");
+		alert_dialog(inst->window,"Vous devez entrer un mot de passe");
 		return 0;
 	}
 
 	if(strcmp(pass,pass2)){
-		alert_dialog(inst->window,"Les deux mot de passe ne sont pas identique");
+		alert_dialog(inst->window,"Les deux mots de passe ne sont pas identiques");
 		return 0;
 	}
 
@@ -340,8 +367,8 @@ void next_click(GtkApplication* app,gpointer data){
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 		if((checked=check_partition_info(inst))){
 					inst->pinfo.selected_partition=get_partition_path_at_index(inst,get_active_radio_button(inst));
-					gchar* message = malloc(54);
-					sprintf(message,"ESI Linux va etre installe dans la partition %s",inst->pinfo.selected_partition);
+					gchar* message = malloc(128);
+					sprintf(message,"ESI Linux va etre installe dans la partition %s\n\n\t\t\t(Toute donnée sera perdu)",inst->pinfo.selected_partition);
 					alert_dialog(inst->window,message);
 									//g_print("Disk: %s\nPartition: %s\nSize: %s",inst->pinfo.selected_disk,inst->pinfo.selected_partition,get_human_size(inst->pinfo.spartition_size));
 				}

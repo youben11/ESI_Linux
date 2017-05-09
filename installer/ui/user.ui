@@ -2,6 +2,11 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkImage" id="showpass_image">
+    <property name="name">showpass_image</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+  </object>
   <object class="GtkLayout" id="user_layout">
     <property name="name">user_layout</property>
     <property name="width_request">800</property>
@@ -166,6 +171,23 @@
       <packing>
         <property name="x">498</property>
         <property name="y">389</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="showpass_button">
+        <property name="name">showpass_button</property>
+        <property name="width_request">24</property>
+        <property name="height_request">24</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="focus_on_click">False</property>
+        <property name="receives_default">True</property>
+        <property name="image">showpass_image</property>
+        <property name="relief">none</property>
+      </object>
+      <packing>
+        <property name="x">727</property>
+        <property name="y">255</property>
       </packing>
     </child>
   </object>
