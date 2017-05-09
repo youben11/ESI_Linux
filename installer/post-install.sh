@@ -15,7 +15,7 @@ LANG=${5}
 # "fr"
 KEYMAP=${6}
 HOSTNAME=${7}
-# /Region/City ex: /Africa/Algiers
+# /Region/City ex: Africa/Algiers
 TIMEZONE=${8}
 # 'yes' or 'no'
 AUTOLOGIN=${9}
@@ -41,7 +41,7 @@ echo "LANG=$LANG" > /etc/locale.conf
 echo "$HOSTNAME" > /etc/hostname
 
 #TIMEZONE
-ln -sf /usr/share/zoneinfo$TIMEZONE /etc/localtime
+ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 
 # AUTOLOGIN
 if [ "$AUTOLOGIN" == "yes" ]
@@ -54,7 +54,7 @@ else
 fi
 
 #updating the USER_NAME login and home folder
-usermod -l "$USER_NAME" -d /home/$user_name -m "etudiant"
+usermod -l "$USER_NAME" -d /home/$USER_NAME -m "etudiant"
 #updating the group_name
 groupmod -n "$USER_NAME" "users"
 #replacing the USER_NAME "etudiant" with the new user_name in the sudoers file

@@ -15,7 +15,7 @@ LANG=${5}
 # "fr"
 KEYMAP=${6}
 HOSTNAME=${7}
-# /Region/City ex: /Africa/Algiers
+# /Region/City ex: Africa/Algiers
 TIMEZONE=${8}
 # 'yes' or 'no'
 AUTOLOGIN=${9}
