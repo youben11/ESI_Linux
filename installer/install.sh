@@ -31,6 +31,11 @@ exec 1>${LOG_STDOUT}
 # stderr replaced with the LOG_STDERR file
 exec 2>${LOG_STDERR}
 ##########################################################
+# print to stdout stream
+Send2Daddy () {
+	echo $* >&$FD_INSTALLER
+}
+##########################################################
 
 # making ext4 file system
 mkfs.ext4 -F $INSTALL_PART
@@ -40,9 +45,11 @@ mount $INSTALL_PART /mnt
 
 # copying files to the new root
 rsync -aAXvP /* /mnt --exclude={/dev/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/.gvfs}
+Send2Daddy "1#"
 
 # copying files to the new root
 cp -avT /run/archiso/bootmnt/arch/boot/$(uname -m)/vmlinuz /mnt/boot/vmlinuz-linux-lts
+Send2Daddy "2#"
 
 # changing storage volatility
 sed -i 's/Storage=volatile/#Storage=auto/' /mnt/etc/systemd/journald.conf
@@ -71,6 +78,7 @@ fi
 
 # we need to mount efi and swap partitions before genfstab
 genfstab -U /mnt > /mnt/etc/fstab
+Send2Daddy "3#"
 
 # copy the post-install script and run it inside the new root
 cp $POST_INSTALL /mnt/

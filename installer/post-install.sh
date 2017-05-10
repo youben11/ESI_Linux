@@ -30,6 +30,11 @@ exec 1>${LOG_STDOUT}
 # stderr replaced with the LOG_STDERR file
 exec 2>${LOG_STDERR}
 ##########################################################
+# print to stdout stream
+Send2Daddy () {
+	echo $* >&$FD_INSTALLER
+}
+##########################################################
 
 #updating the KEYMAP
 echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
@@ -62,9 +67,11 @@ sed -i "s/etudiant/$USER_NAME/" /etc/sudoers
 
 #updating the passwords
 echo -e "$USER_NAME:$USER_PASS\nroot:$ROOT_PASS" | chpasswd -c SHA512
+Send2Daddy "4#"
 
 #creat the initial ramdisk env
 mkinitcpio -p linux-lts
+Send2Daddy "5#"
 
 #installing grub
 if test -d '/sys/firmware/efi/efivars'
@@ -75,3 +82,4 @@ else
 fi
 
 grub-mkconfig -o /boot/grub/grub.cfg
+Send2Daddy "6#"
