@@ -2,6 +2,11 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkImage" id="showpass_image">
+    <property name="name">showpass_image</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+  </object>
   <object class="GtkLayout" id="user_layout">
     <property name="name">user_layout</property>
     <property name="width_request">800</property>
@@ -9,27 +14,10 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkCheckButton" id="autolog">
-        <property name="label" translatable="yes">Se connecter automatiquement</property>
-        <property name="name">user_auto_login</property>
-        <property name="width_request">100</property>
-        <property name="height_request">50</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="focus_on_click">False</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="x">200</property>
-        <property name="y">330</property>
-      </packing>
-    </child>
-    <child>
       <object class="GtkEntry" id="ent-password">
         <property name="name">user_password</property>
         <property name="width_request">250</property>
-        <property name="height_request">30</property>
+        <property name="height_request">40</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">20</property>
@@ -37,15 +25,15 @@
         <property name="invisible_char">●</property>
       </object>
       <packing>
-        <property name="x">400</property>
-        <property name="y">200</property>
+        <property name="x">470</property>
+        <property name="y">250</property>
       </packing>
     </child>
     <child>
       <object class="GtkEntry" id="ent-passwordConf">
         <property name="name">user_password2</property>
         <property name="width_request">250</property>
-        <property name="height_request">30</property>
+        <property name="height_request">40</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">20</property>
@@ -53,79 +41,81 @@
         <property name="invisible_char">●</property>
       </object>
       <packing>
-        <property name="x">400</property>
-        <property name="y">250</property>
+        <property name="x">470</property>
+        <property name="y">300</property>
       </packing>
     </child>
     <child>
       <object class="GtkLabel" id="passwordConf">
-        <property name="height_request">30</property>
+        <property name="width_request">15</property>
+        <property name="height_request">40</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Confirmation du mot de passe:</property>
+        <property name="label" translatable="yes">   Confirmation
+  du mot de passe:</property>
       </object>
       <packing>
-        <property name="x">100</property>
-        <property name="y">250</property>
+        <property name="x">304</property>
+        <property name="y">300</property>
       </packing>
     </child>
     <child>
       <object class="GtkLabel" id="password">
-        <property name="height_request">30</property>
+        <property name="height_request">40</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Mot de passe:</property>
       </object>
       <packing>
-        <property name="x">100</property>
-        <property name="y">200</property>
+        <property name="x">316</property>
+        <property name="y">250</property>
       </packing>
     </child>
     <child>
       <object class="GtkEntry" id="ent-hostname">
         <property name="name">user_hostname</property>
         <property name="width_request">250</property>
-        <property name="height_request">30</property>
+        <property name="height_request">40</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">20</property>
         <property name="text" translatable="yes">esi-etudiant-pc</property>
       </object>
       <packing>
-        <property name="x">400</property>
-        <property name="y">150</property>
+        <property name="x">470</property>
+        <property name="y">155</property>
       </packing>
     </child>
     <child>
       <object class="GtkLabel" id="hostname">
-        <property name="height_request">30</property>
+        <property name="height_request">40</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Nom de la machine:</property>
       </object>
       <packing>
-        <property name="x">100</property>
-        <property name="y">150</property>
+        <property name="x">279</property>
+        <property name="y">155</property>
       </packing>
     </child>
     <child>
       <object class="GtkEntry" id="ent-username">
         <property name="name">user_username</property>
         <property name="width_request">250</property>
-        <property name="height_request">30</property>
+        <property name="height_request">40</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">31</property>
         <property name="text" translatable="yes">esi-etudiant</property>
       </object>
       <packing>
-        <property name="x">400</property>
+        <property name="x">470</property>
         <property name="y">100</property>
       </packing>
     </child>
     <child>
       <object class="GtkLabel" id="username">
-        <property name="height_request">30</property>
+        <property name="height_request">40</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Nom d'utilisateur:</property>
@@ -133,8 +123,71 @@
         <property name="track_visited_links">False</property>
       </object>
       <packing>
-        <property name="x">100</property>
+        <property name="x">291</property>
         <property name="y">100</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage" id="user_image">
+        <property name="width_request">120</property>
+        <property name="height_request">120</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="x">110</property>
+        <property name="y">85</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkImage" id="password_image">
+        <property name="width_request">120</property>
+        <property name="height_request">120</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="x">106</property>
+        <property name="y">225</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Connextion automatique</property>
+      </object>
+      <packing>
+        <property name="x">292</property>
+        <property name="y">391</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSwitch" id="user_auto_log">
+        <property name="name">user_auto_log</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+      </object>
+      <packing>
+        <property name="x">498</property>
+        <property name="y">389</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="showpass_button">
+        <property name="name">showpass_button</property>
+        <property name="width_request">24</property>
+        <property name="height_request">24</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="focus_on_click">False</property>
+        <property name="receives_default">True</property>
+        <property name="image">showpass_image</property>
+        <property name="relief">none</property>
+      </object>
+      <packing>
+        <property name="x">727</property>
+        <property name="y">255</property>
       </packing>
     </child>
   </object>

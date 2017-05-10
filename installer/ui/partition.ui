@@ -13,7 +13,6 @@
     <property name="name">refresh_image</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">Refresh.png</property>
   </object>
   <object class="GtkLayout" id="partition_layout">
     <property name="name">part2_layou</property>
@@ -47,10 +46,9 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">15</property>
                 <child>
-                  <object class="GtkImage">
+                  <object class="GtkImage" id="disk_image">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="pixbuf">harddisk.png</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
