@@ -20,6 +20,13 @@ TIMEZONE=${8}
 # 'yes' or 'no'
 AUTOLOGIN=${9}
 ##########################################################
+# checking the args number
+if [ $# != 9 ]
+then
+	echo "check the args"
+	exit 1
+fi
+##########################################################
 LOG_STDOUT='install_log_stdout.log'
 LOG_STDERR='install_log_stderr.log'
 ##########################################################
@@ -34,19 +41,31 @@ exec 2>${LOG_STDERR}
 Send2Daddy () {
 	echo $* >&$FD_INSTALLER
 }
+# check the exit status of the last command executed
+CheckIt () {
+	if [ $? != 0 ]
+	then
+		Send2Daddy "error: $1"
+		exit 1
+	fi
+}
 ##########################################################
 
 #updating the KEYMAP
 echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
+CheckIt "changing the KEYMAP to $KEYMAP"
 
 #update the LANGuage
 echo "LANG=$LANG" > /etc/locale.conf
+CheckIt "changing the language to $LANG"
 
 #updating the HOSTNAME
 echo "$HOSTNAME" > /etc/hostname
+CheckIt "updating the hostname"
 
 #TIMEZONE
 ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+CheckIt "configure the timezone to $TIMEZONE"
 
 # AUTOLOGIN
 if [ "$AUTOLOGIN" == "yes" ]
@@ -60,17 +79,22 @@ fi
 
 #updating the USER_NAME login and home folder
 usermod -l "$USER_NAME" -d /home/$USER_NAME -m "etudiant"
+CheckIt "changing user login and home folder"
 #updating the group_name
 groupmod -n "$USER_NAME" "users"
+CheckIt "updating the group name"
 #replacing the USER_NAME "etudiant" with the new user_name in the sudoers file
 sed -i "s/etudiant/$USER_NAME/" /etc/sudoers
+CheckIt "adding user to sudoers"
 
 #updating the passwords
 echo -e "$USER_NAME:$USER_PASS\nroot:$ROOT_PASS" | chpasswd -c SHA512
+CheckIt "changing the passwords"
 Send2Daddy "4#"
 
 #creat the initial ramdisk env
 mkinitcpio -p linux-lts
+CheckIt "creating the init ramdisk env"
 Send2Daddy "5#"
 
 #installing grub
@@ -80,6 +104,8 @@ then
 else
 	grub-install $INSTALL_DISK --target=i386-pc --recheck -no-floppy
 fi
+CheckIt "installing the bootloader grub"
 
 grub-mkconfig -o /boot/grub/grub.cfg
+CheckIt "generate grub configuration"
 Send2Daddy "6#"

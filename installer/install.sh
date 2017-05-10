@@ -20,6 +20,13 @@ TIMEZONE=${8}
 # 'yes' or 'no'
 AUTOLOGIN=${9}
 ##########################################################
+# checking the args number
+if [ $# != 9 ]
+then
+	echo "check the args"
+	exit 1
+fi
+##########################################################
 LOG_STDOUT='install_log_stdout.log'
 LOG_STDERR='install_log_stderr.log'
 POST_INSTALL='post-install.sh'
@@ -35,24 +42,37 @@ exec 2>${LOG_STDERR}
 Send2Daddy () {
 	echo $* >&$FD_INSTALLER
 }
+# check the exit status of the last command executed
+CheckIt () {
+	if [ $? != 0 ]
+	then
+		Send2Daddy "error: $1"
+		exit 1
+	fi
+}
 ##########################################################
 
 # making ext4 file system
 mkfs.ext4 -F $INSTALL_PART
+CheckIt "creat ext4 filesystem in $INSTALL_PART"
 
 # mounting INSTALL_PART to the /mnt mount point
 mount $INSTALL_PART /mnt
+CheckIt "mounting $INSTALL_PART in /mnt"
 
 # copying files to the new root
 rsync -aAXvP /* /mnt --exclude={/dev/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found,/.gvfs}
+CheckIt "copying files to /mnt"
 Send2Daddy "1#"
 
 # copying files to the new root
 cp -avT /run/archiso/bootmnt/arch/boot/$(uname -m)/vmlinuz /mnt/boot/vmlinuz-linux-lts
+CheckIt "copying the kernel image"
 Send2Daddy "2#"
 
 # changing storage volatility
 sed -i 's/Storage=volatile/#Storage=auto/' /mnt/etc/systemd/journald.conf
+CheckIt "changing storage volatility"
 
 # deleting old configuration files
 rm -r /mnt/etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
@@ -65,8 +85,9 @@ chmod 700 /mnt/root
 if test -d '/sys/firmware/efi/efivars'
 then
 	EFI_PART=$INSTALL_DISK$(parted /dev/sda print | grep EFI | tr -d ' ' | head -c 1)
-	mkdir /mnt/boot/efi
+	mkdir -p /mnt/boot/efi
 	mount $EFI_PART /mnt/boot/efi
+	CheckIt "mounting $EFI_PART the efi partition"
 fi
 
 # turn on the swap partition if exist
@@ -74,15 +95,19 @@ SWAP_PART=$INSTALL_DISK$(parted /dev/sda print | grep swap | tr -d ' ' | head -c
 if [ "$SWAP_PART" != "$INSTALL_DISK" ]
 then
 	swapon $SWAP_PART
+	CheckIt "enable swap partition"
 fi
 
 # we need to mount efi and swap partitions before genfstab
 genfstab -U /mnt > /mnt/etc/fstab
+CheckIt "generate fstab"
 Send2Daddy "3#"
 
 # copy the post-install script and run it inside the new root
 cp $POST_INSTALL /mnt/
+CheckIt "copy $POST_INSTALL the post install script"
 arch-chroot /mnt $POST_INSTALL $@
+CheckIt "changing the root and run the post install script"
 
 # deleting the post-install script
 rm "/mnt/$POST_INSTALL"
