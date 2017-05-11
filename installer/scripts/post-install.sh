@@ -20,13 +20,6 @@ TIMEZONE=${8}
 # 'yes' or 'no'
 AUTOLOGIN=${9}
 ##########################################################
-# checking the args number
-if [ $# != 9 ]
-then
-	echo "check the args"
-	exit 1
-fi
-##########################################################
 LOG_STDOUT='install_log_stdout.log'
 LOG_STDERR='install_log_stderr.log'
 ##########################################################
@@ -49,6 +42,13 @@ CheckIt () {
 		exit 1
 	fi
 }
+##########################################################
+# checking the args number
+if [ $# != 9 ]
+then
+	Send2Daddy "error: check the args"
+	exit 1
+fi
 ##########################################################
 
 #updating the KEYMAP
