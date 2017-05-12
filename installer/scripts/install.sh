@@ -109,13 +109,14 @@ CheckIt "generate fstab"
 Send2Daddy "3#"
 
 # copy the post-install script and run it inside the new root
-cp $POST_INSTALL /mnt/
+cp scripts/$POST_INSTALL /mnt/
 CheckIt "copy $POST_INSTALL the post install script"
-arch-chroot /mnt $POST_INSTALL $@
+arch-chroot /mnt ./$POST_INSTALL $@
 CheckIt "changing the root and run the post install script"
 
-# deleting the post-install script
+# deleting the post-install script and move the logs files
 rm "/mnt/$POST_INSTALL"
+mv /mnt/post-install_log_stdout.log /mnt/post-install_log_stderr.log ./
 
 # unmount all the the partition recursivly
 umount -R /mnt

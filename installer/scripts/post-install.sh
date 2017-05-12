@@ -20,8 +20,8 @@ TIMEZONE=${8}
 # 'yes' or 'no'
 AUTOLOGIN=${9}
 ##########################################################
-LOG_STDOUT='install_log_stdout.log'
-LOG_STDERR='install_log_stderr.log'
+LOG_STDOUT='post-install_log_stdout.log'
+LOG_STDERR='post-install_log_stderr.log'
 ##########################################################
 # saves stdout in FD_INSTALLER
 exec {FD_INSTALLER}>&1
@@ -100,9 +100,9 @@ Send2Daddy "5#"
 #installing grub
 if test -d '/sys/firmware/efi/efivars'
 then
-	grub-install $INSTALL_DISK --target=x86_64-efi --recheck --no-floppy
+	grub-install $INSTALL_DISK --target=x86_64-efi
 else
-	grub-install $INSTALL_DISK --target=i386-pc --recheck -no-floppy
+	grub-install $INSTALL_DISK --target=i386-pc
 fi
 CheckIt "installing the bootloader grub"
 
