@@ -78,6 +78,11 @@ CheckIt "changing storage volatility"
 rm -r /mnt/etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
 rm /mnt/etc/systemd/scripts/choose-mirror
 
+# remove the installer
+rm -r /mnt/opt/installer/
+rm /mnt/usr/share/applications/installer.desktop
+rm /mnt/home/etudiant/Bureau/Installation.desktop
+
 # changing the permissions of root home directory
 chmod 700 /mnt/root
 
