@@ -20,13 +20,6 @@ TIMEZONE=${8}
 # 'yes' or 'no'
 AUTOLOGIN=${9}
 ##########################################################
-# checking the args number
-if [ $# != 9 ]
-then
-	echo "check the args"
-	exit 1
-fi
-##########################################################
 LOG_STDOUT='install_log_stdout.log'
 LOG_STDERR='install_log_stderr.log'
 POST_INSTALL='post-install.sh'
@@ -50,6 +43,13 @@ CheckIt () {
 		exit 1
 	fi
 }
+##########################################################
+# checking the args number
+if [ $# != 9 ]
+then
+	Send2Daddy "error: check the args"
+	exit 1
+fi
 ##########################################################
 
 # making ext4 file system
@@ -78,6 +78,11 @@ CheckIt "changing storage volatility"
 rm -r /mnt/etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
 rm /mnt/etc/systemd/scripts/choose-mirror
 
+# remove the installer
+rm -r /mnt/opt/installer/
+rm /mnt/usr/share/applications/installer.desktop
+rm /mnt/home/etudiant/Bureau/Installation.desktop
+
 # changing the permissions of root home directory
 chmod 700 /mnt/root
 
@@ -104,13 +109,14 @@ CheckIt "generate fstab"
 Send2Daddy "3#"
 
 # copy the post-install script and run it inside the new root
-cp $POST_INSTALL /mnt/
+cp scripts/$POST_INSTALL /mnt/
 CheckIt "copy $POST_INSTALL the post install script"
-arch-chroot /mnt $POST_INSTALL $@
+arch-chroot /mnt ./$POST_INSTALL $@
 CheckIt "changing the root and run the post install script"
 
-# deleting the post-install script
+# deleting the post-install script and move the logs files
 rm "/mnt/$POST_INSTALL"
+mv /mnt/post-install_log_stdout.log /mnt/post-install_log_stderr.log ./
 
 # unmount all the the partition recursivly
 umount -R /mnt
