@@ -1,6 +1,6 @@
 #include "event_funcs.h"
 
-#define INST_SCRIPT "./scripts/test.sh"
+#define INST_SCRIPT "./scripts/install.sh"
 
 void* install(void* ins){
 
