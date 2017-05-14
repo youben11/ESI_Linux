@@ -19,7 +19,7 @@
         <property name="active">0</property>
         <items>
           <item translatable="yes">Français (AZERTY)</item>
-          <item translatable="yes">English (QWERTY)</item>
+          <item translatable="yes">Anglais (QWERTY)</item>
         </items>
       </object>
       <packing>
@@ -103,16 +103,9 @@
           <item translatable="yes">Asia</item>
           <item translatable="yes">Atlantic</item>
           <item translatable="yes">Australia</item>
-          <item translatable="yes">Brazil</item>
           <item translatable="yes">Canada</item>
-          <item translatable="yes">Chile</item>
           <item translatable="yes">Etc</item>
           <item translatable="yes">Europe</item>
-          <item translatable="yes">Indian</item>
-          <item translatable="yes">Mexico</item>
-          <item translatable="yes">Pacific</item>
-          <item translatable="yes">posix</item>
-          <item translatable="yes">right</item>
           <item translatable="yes">US</item>
         </items>
       </object>

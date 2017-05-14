@@ -40,6 +40,9 @@ typedef struct lang_time_info{
 }lang_time_info;
 
 typedef struct installer{
+
+	GtkApplication* app;
+
 	GtkBuilder* builders[8];
 	GtkWindow* window;
 	GtkButton* buttons[5];

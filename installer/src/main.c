@@ -11,12 +11,13 @@ static void activate (GtkApplication *app,gpointer  user_data){
   installer* inst = malloc(sizeof(*inst));
   GtkBuilder *builder = gtk_builder_new();
   init_installer(inst,builder);
+  inst->app=app;
 
   //put the first layout
   gtk_fixed_put(inst->main_fixed,inst->layouts[0],0,0);
 
   //signals management
-  g_signal_connect(G_OBJECT(inst->buttons[2]),"clicked",G_CALLBACK(exit_finish),app);
+  g_signal_connect(G_OBJECT(inst->buttons[2]),"clicked",G_CALLBACK(exit_finish),inst);
   g_signal_connect(G_OBJECT(inst->buttons[1]),"clicked",G_CALLBACK(next_click),inst);
   g_signal_connect(G_OBJECT(inst->buttons[0]),"clicked",G_CALLBACK(back_click),inst);
   g_signal_connect(G_OBJECT(inst->window),"destroy",G_CALLBACK(g_application_quit),app);

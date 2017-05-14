@@ -2,7 +2,8 @@
 
 sleep 3
 
-echo "1thread"
+echo "1"
+echo "error:thread"
 sleep 3 
 echo "2"
 sleep 3

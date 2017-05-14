@@ -22,7 +22,8 @@
     </child>
     <child>
       <object class="GtkCheckButton">
-        <property name="label" translatable="yes">Reboot 2122</property>
+        <property name="label" translatable="yes">Redémarrer</property>
+        <property name="name">check_reboot</property>
         <property name="width_request">100</property>
         <property name="height_request">80</property>
         <property name="visible">True</property>

@@ -25,5 +25,6 @@ void* install(void* ins);
 int check_time_lang(installer* inst);
 void installation_step_done(installer* inst,int pos);
 void showpass_event(GtkWidget* w, gpointer data);
+void installation_error(installer* inst,char* error);
 
 #endif

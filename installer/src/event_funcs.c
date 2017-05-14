@@ -2,23 +2,18 @@
 
 #define INST_SCRIPT "./scripts/test.sh"
 
-
-/*
-	formatage
-	montage
-	copie des fichier
-	copie du kernel
-	personallisation application des configuration
-	reglage de l'utilisateur
-	genration de la ramdisk
-	installation du bootloader
-	finalisation
-*/
 void* install(void* ins){
 
 	installer* inst=(installer*)ins;
 
-	char* arg[]={INST_SCRIPT,(char*)inst->pinfo.selected_partition,inst->uinfo.username,inst->uinfo.password,inst->uinfo.password,"en_US.UTF-8","fr",inst->uinfo.hostname,NULL};
+	char *autolog=malloc(5);
+	if(inst->uinfo.auto_login)
+		strcpy(autolog,"yes");
+	else
+		strcpy(autolog,"no");
+
+	// arguments for the install.sh script
+	char* arg[]={INST_SCRIPT,(char*)inst->pinfo.selected_partition,inst->uinfo.username,inst->uinfo.password,inst->uinfo.password,inst->linfo.language,inst->linfo.keyboard,inst->uinfo.hostname,inst->linfo.timezone,autolog,NULL};
 
 	ps_info psinfo=script_ctrl(INST_SCRIPT,arg);
 
@@ -29,7 +24,7 @@ void* install(void* ins){
 			return NULL;
 		}
 
-		char buffer[32];
+		char buffer[128];
 		char step[2];
 		int pos=0;
 
@@ -41,7 +36,11 @@ void* install(void* ins){
 				pos=atoi(step);
 
 				installation_step_done(inst,pos);
-			}	
+			}else {//open an error dialog
+				//installation_error(inst,buffer);
+				g_print("%s",buffer);
+				
+			}
 		}
 
 		// closing the pipes read ends
@@ -78,6 +77,24 @@ void installation_step_done(installer* inst,int pos){
 	if(pos!=max)
 		gtk_spinner_start(inst->spinner[pos]);		
 	
+}
+
+void installation_error(installer* inst,char* error){
+
+	GtkMessageDialog *dialog=GTK_MESSAGE_DIALOG(gtk_message_dialog_new(inst->window,
+																		GTK_DIALOG_DESTROY_WITH_PARENT,
+																		GTK_MESSAGE_INFO,
+																		GTK_BUTTONS_CLOSE,
+																		"Erreur : %s\nVeuillez réessayer",error));
+	g_signal_connect(G_OBJECT(dialog),"response",G_CALLBACK(exit_finish),inst);
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+
+	while (gtk_events_pending())
+    gtk_main_iteration();
+
+	
+
 }
 
 void showpass_event(GtkWidget* w, gpointer data){
@@ -322,7 +339,15 @@ int check_user_info(installer* inst){
 }
 
 void exit_finish(GtkWidget *w, gpointer userdata){
-	g_application_quit(G_APPLICATION(userdata));
+
+	installer* inst=(installer*) userdata;
+
+	GtkCheckButton* reboot=GTK_CHECK_BUTTON(get_child_by_name(GTK_CONTAINER(inst->layouts[7]),"check_reboot"));
+
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(reboot))==TRUE)
+		system("reboot");
+
+	g_application_quit(G_APPLICATION(inst->app));
 }
 
 
@@ -368,9 +393,8 @@ void next_click(GtkApplication* app,gpointer data){
 		if((checked=check_partition_info(inst))){
 					inst->pinfo.selected_partition=get_partition_path_at_index(inst,get_active_radio_button(inst));
 					gchar* message = malloc(128);
-					sprintf(message,"ESI Linux va etre installe dans la partition %s\n\n\t\t\t(Toute donnée sera perdu)",inst->pinfo.selected_partition);
+					sprintf(message,"ESI Linux va etre installe dans la partition %s",inst->pinfo.selected_partition);
 					alert_dialog(inst->window,message);
-									//g_print("Disk: %s\nPartition: %s\nSize: %s",inst->pinfo.selected_disk,inst->pinfo.selected_partition,get_human_size(inst->pinfo.spartition_size));
 				}
                 else
 					alert_dialog(inst->window,"Il vous faut au moins 15 GiB d'espace disque");
@@ -422,11 +446,7 @@ void next_click(GtkApplication* app,gpointer data){
 
 	if(inst->pos==6){
 		gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),FALSE);
-/*		while (gtk_events_pending ()){
-
-  			gtk_main_iteration (); 
-		}
-*/
+		gtk_button_set_label(inst->buttons[1],"Suivant");
 		//start new thread
 		pthread_t tid;
 		pthread_create(&tid,NULL,install,inst);
