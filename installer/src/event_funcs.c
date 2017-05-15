@@ -234,7 +234,7 @@ void save_time_lang(installer* inst){
 	if (!strcmp(gtk_combo_box_text_get_active_text(language),"FR,fr"))
 		strcpy(inst->linfo.language,"fr_FR.UTF-8");
 	else
-		strcpy(inst->linfo.language,"en_EN.UTF-8");
+		strcpy(inst->linfo.language,"en_US.UTF-8");
 
    
 }
