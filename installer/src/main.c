@@ -31,6 +31,7 @@ static void activate (GtkApplication *app,gpointer  user_data){
 
   // Start the app
   gtk_application_add_window(app,inst->window);
+  gtk_window_set_icon_from_file(inst->window,"img/icon.png",NULL);
   gtk_widget_show_all(GTK_WIDGET(inst->window));
   g_object_unref(app);
 }

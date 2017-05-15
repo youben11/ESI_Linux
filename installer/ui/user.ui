@@ -155,7 +155,7 @@
       <object class="GtkLabel">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Connextion automatique</property>
+        <property name="label" translatable="yes">Connexion automatique</property>
       </object>
       <packing>
         <property name="x">292</property>
