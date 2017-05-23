@@ -24,7 +24,7 @@ void* install(void* ins){
 			return NULL;
 		}
 
-		char buffer[128];
+		char buffer[256];
 		char step[2];
 		int pos=0;
 
@@ -36,9 +36,11 @@ void* install(void* ins){
 				pos=atoi(step);
 
 				installation_step_done(inst,pos);
-			}else {//open an error dialog
-				//installation_error(inst,buffer);
 				g_print("%s",buffer);
+			}else {//open an error dialog
+				installation_step_error(inst,pos+1,&buffer[6]);
+				g_print("%s",buffer);
+				break;
 				
 			}
 		}
@@ -57,9 +59,10 @@ void* install(void* ins){
 			perror("ERROR exit status of the child process is diffrent from zero");
 			return NULL;
     }
-
+    
     //enable next button
-    gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
+    if(pos==6)
+    	gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[1]),TRUE);
 }
 
 void installation_step_done(installer* inst,int pos){
@@ -76,6 +79,27 @@ void installation_step_done(installer* inst,int pos){
 
 	if(pos!=max)
 		gtk_spinner_start(inst->spinner[pos]);		
+	
+}
+
+void installation_step_error(installer* inst,int pos,char* error){
+
+	const int max=6;
+
+	strcat(error,"Veuillez réessayer");
+
+	if(pos>max)
+		return;
+
+	gtk_spinner_stop(inst->spinner[pos-1]);
+
+	gtk_widget_set_visible(GTK_WIDGET(inst->image[pos-1]),TRUE);
+	gtk_image_set_from_file(inst->image[pos-1],"img/checked_error.png");
+
+	GtkLabel* label_error=GTK_LABEL(get_child_by_name(GTK_CONTAINER(inst->layouts[6]),"installation_error"));
+	gtk_label_set_text(label_error,error);
+	
+	gtk_widget_set_sensitive(GTK_WIDGET(inst->buttons[2]),TRUE);
 	
 }
 
@@ -231,7 +255,7 @@ void save_time_lang(installer* inst){
 		strcpy(inst->linfo.keyboard,"en");
 		
 	//lang	
-	if (!strcmp(gtk_combo_box_text_get_active_text(language),"FR,fr"))
+	if (!strcmp(gtk_combo_box_text_get_active_text(language),"français (France)"))
 		strcpy(inst->linfo.language,"fr_FR.UTF-8");
 	else
 		strcpy(inst->linfo.language,"en_US.UTF-8");
@@ -344,8 +368,11 @@ void exit_finish(GtkWidget *w, gpointer userdata){
 
 	GtkCheckButton* reboot=GTK_CHECK_BUTTON(get_child_by_name(GTK_CONTAINER(inst->layouts[7]),"check_reboot"));
 
-	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(reboot))==TRUE)
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(reboot))==TRUE){
 		system("reboot");
+		sleep(5);
+	}
+		
 
 	g_application_quit(G_APPLICATION(inst->app));
 }
@@ -393,7 +420,7 @@ void next_click(GtkApplication* app,gpointer data){
 		if((checked=check_partition_info(inst))){
 					inst->pinfo.selected_partition=get_partition_path_at_index(inst,get_active_radio_button(inst));
 					gchar* message = malloc(128);
-					sprintf(message,"ESI Linux va etre installe dans la partition %s",inst->pinfo.selected_partition);
+					sprintf(message,"ESI Linux va être installe dans la partition %s",inst->pinfo.selected_partition);
 					alert_dialog(inst->window,message);
 				}
                 else

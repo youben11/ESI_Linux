@@ -52,6 +52,9 @@ then
 fi
 ##########################################################
 
+# unmount all the the partition recursivly
+umount -R /mnt
+
 # making ext4 file system
 mkfs.ext4 -F $INSTALL_PART
 CheckIt "creat ext4 filesystem in $INSTALL_PART"
@@ -111,7 +114,7 @@ Send2Daddy "3#"
 # copy the post-install script and run it inside the new root
 cp scripts/$POST_INSTALL /mnt/
 CheckIt "copy $POST_INSTALL the post install script"
-arch-chroot /mnt ./$POST_INSTALL $@
+arch-chroot /mnt ./$POST_INSTALL $@ $FD_INSTALLER #the last arg is the fd of the saved stdout
 CheckIt "changing the root and run the post install script"
 
 # deleting the post-install script and move the logs files

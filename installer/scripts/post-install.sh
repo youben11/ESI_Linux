@@ -24,7 +24,7 @@ LOG_STDOUT='post-install_log_stdout.log'
 LOG_STDERR='post-install_log_stderr.log'
 ##########################################################
 # saves stdout in FD_INSTALLER
-exec {FD_INSTALLER}>&1
+exec {FD_INSTALLER}>&${10} #the 10th arg is the fd of the saved stdout
 # stdout replaced with the LOG_STDOUT file
 exec 1>${LOG_STDOUT}
 # stderr replaced with the LOG_STDERR file
@@ -44,7 +44,7 @@ CheckIt () {
 }
 ##########################################################
 # checking the args number
-if [ $# != 9 ]
+if [ $# != 10 ]
 then
 	Send2Daddy "error: check the args"
 	exit 1

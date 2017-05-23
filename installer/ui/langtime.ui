@@ -37,8 +37,8 @@
         <property name="double_buffered">False</property>
         <property name="active">0</property>
         <items>
-          <item translatable="yes">FR,fr</item>
-          <item translatable="yes">EN,en</item>
+          <item translatable="yes">français (France)</item>
+          <item translatable="yes">english (United States)</item>
         </items>
       </object>
       <packing>

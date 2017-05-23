@@ -1,7 +1,7 @@
 #include "init_funcs.h"
 
 void init_images(installer* inst, GtkBuilder* builder){
-	GtkImage *logo_img,*welcome_img,*disk_img,*refresh_img,*lang_img,*time_img,*user_img,*password_img,*showpass_img;
+	GtkImage *logo_img,*welcome_img,*disk_img,*refresh_img,*lang_img,*time_img,*user_img,*password_img,*showpass_img,*end_img;
 
 	logo_img = GTK_IMAGE(gtk_builder_get_object(builder,"logo_image"));
 	welcome_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[0],"welcome_image"));
@@ -12,6 +12,7 @@ void init_images(installer* inst, GtkBuilder* builder){
 	user_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[4],"user_image"));
 	password_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[4],"password_image"));
 	showpass_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[4],"showpass_image"));
+	end_img = GTK_IMAGE(gtk_builder_get_object(inst->builders[7],"end_image"));
 
 	gtk_image_set_from_file(logo_img,"img/logo.png");
 	gtk_image_set_from_file(welcome_img,"img/welcome.png");
@@ -22,6 +23,7 @@ void init_images(installer* inst, GtkBuilder* builder){
 	gtk_image_set_from_file(user_img,"img/username.png");
 	gtk_image_set_from_file(password_img,"img/password.png");
 	gtk_image_set_from_file(showpass_img,"img/show_pass.png");
+	gtk_image_set_from_file(end_img,"img/end.png");
 }
 
 void init_user_info(installer* inst){
@@ -156,15 +158,16 @@ void init_summary(installer* inst){
 
 
 	if (!strcmp(inst->linfo.language,"fr_FR.UTF-8"))
-			gtk_label_set_text(llanguage,"fr");
+			gtk_label_set_text(llanguage,"français (France)");
 	else
-	    gtk_label_set_text(llanguage,"en");
+	    gtk_label_set_text(llanguage,"english (United States)");
 
 
 	if (!strcmp(inst->linfo.keyboard,"fr"))
 			gtk_label_set_text(lkeyboard,"Français (AZERTY)");
 	else
 			gtk_label_set_text(lkeyboard,"Anglais (QWERTY)");
+		
 	gtk_label_set_text(lusername,inst->uinfo.username);
 	gtk_label_set_text(lhostname,inst->uinfo.hostname);
 	gtk_label_set_text(lsize,get_human_size(inst->pinfo.spartition_size));

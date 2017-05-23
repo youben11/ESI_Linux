@@ -24,6 +24,7 @@ void refresh_disk_list(GtkWidget* w , gpointer data);
 void* install(void* ins);
 int check_time_lang(installer* inst);
 void installation_step_done(installer* inst,int pos);
+void installation_step_error(installer* inst,int pos,char* error);
 void showpass_event(GtkWidget* w, gpointer data);
 void installation_error(installer* inst,char* error);
 

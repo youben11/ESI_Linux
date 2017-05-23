@@ -262,5 +262,30 @@
         <property name="y">360</property>
       </packing>
     </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="name">installation_error</property>
+        <property name="width_request">506</property>
+        <property name="height_request">80</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="hexpand">False</property>
+        <property name="vexpand">False</property>
+        <property name="xpad">0</property>
+        <property name="ypad">0</property>
+        <property name="justify">right</property>
+        <property name="xalign">0.5</property>
+        <property name="yalign">0.5</property>
+        <attributes>
+          <attribute name="font-desc" value="Cantarell 13"/>
+          <attribute name="foreground" value="#efef29292929"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="x">158</property>
+        <property name="y">404</property>
+      </packing>
+    </child>
   </object>
 </interface>
